@@ -1,0 +1,8 @@
+wolfcrypt/src/src_libwolfssl_la-hmac.lo: wolfcrypt/src/hmac.c config.h \
+ wolfssl/wolfcrypt/settings.h wolfssl/wolfcrypt/visibility.h
+
+config.h:
+
+wolfssl/wolfcrypt/settings.h:
+
+wolfssl/wolfcrypt/visibility.h:

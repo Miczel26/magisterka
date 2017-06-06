@@ -1,0 +1,28 @@
+Linker flags without semihosting
+	--specs=nosys.specs
+
+How turn on semihosting:
+
+Add to linker flags
+	--specs=rdimon.specs -lc -lrdimon
+
+Edit debug configuration
+	GDB OpenOCD Debugging -> Startup -> check 'Enable ARM semihosting'
+	
+Example code
+
+	extern void initialise_monitor_handles(void);
+
+	int main()
+	{
+		// Init semihosting
+		initialise_monitor_handles();
+
+		// Infinite loop
+		while (1)
+		{
+			printf("Semihosting test!\n");
+		}
+
+		return 0;
+	}

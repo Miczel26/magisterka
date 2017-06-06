@@ -1,0 +1,182 @@
+wolfcrypt/src/src_libwolfssl_la-aes.lo: wolfcrypt/src/aes.c config.h \
+ wolfssl/wolfcrypt/settings.h wolfssl/wolfcrypt/visibility.h \
+ wolfssl/wolfcrypt/aes.h wolfssl/wolfcrypt/types.h \
+ wolfssl/wolfcrypt/wc_port.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdio.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\newlib.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\config.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\ieeefp.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\features.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\cdefs.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_default_types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdarg.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\reent.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\lock.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_stdint.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\stdio.h \
+ wolfssl/wolfcrypt/memory.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdlib.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\stdlib.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\alloca.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\string.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\string.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h \
+ wolfssl/wolfcrypt/error-crypt.h wolfssl/wolfcrypt/logging.h \
+ wolfcrypt/src/misc.c wolfssl/wolfcrypt/misc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f2xx.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f217xx.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cm3.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdint.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_intsup.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmInstr.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/cmsis_gcc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmFunc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_conf.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_cortex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_cryp.h
+
+config.h:
+
+wolfssl/wolfcrypt/settings.h:
+
+wolfssl/wolfcrypt/visibility.h:
+
+wolfssl/wolfcrypt/aes.h:
+
+wolfssl/wolfcrypt/types.h:
+
+wolfssl/wolfcrypt/wc_port.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdio.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\newlib.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\config.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\ieeefp.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\features.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\cdefs.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_default_types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdarg.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\reent.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\lock.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_stdint.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\stdio.h:
+
+wolfssl/wolfcrypt/memory.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdlib.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\stdlib.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\alloca.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\string.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\string.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h:
+
+wolfssl/wolfcrypt/error-crypt.h:
+
+wolfssl/wolfcrypt/logging.h:
+
+wolfcrypt/src/misc.c:
+
+wolfssl/wolfcrypt/misc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f2xx.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f217xx.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cm3.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdint.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_intsup.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmInstr.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/cmsis_gcc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmFunc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_conf.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_cortex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_cryp.h:

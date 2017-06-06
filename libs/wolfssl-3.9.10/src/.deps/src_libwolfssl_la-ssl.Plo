@@ -1,0 +1,8 @@
+src/src_libwolfssl_la-ssl.lo: src/ssl.c config.h \
+ wolfssl/wolfcrypt/settings.h wolfssl/wolfcrypt/visibility.h
+
+config.h:
+
+wolfssl/wolfcrypt/settings.h:
+
+wolfssl/wolfcrypt/visibility.h:

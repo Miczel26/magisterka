@@ -1,0 +1,5 @@
+Files description
+
+1. stm3221g_eval_stlink.cfg
+
+Board configuration file for STM3221G-EVAL [OpenOCD].

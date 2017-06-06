@@ -1,0 +1,8 @@
+wolfcrypt/src/src_libwolfssl_la-md5.lo: wolfcrypt/src/md5.c config.h \
+ wolfssl/wolfcrypt/settings.h wolfssl/wolfcrypt/visibility.h
+
+config.h:
+
+wolfssl/wolfcrypt/settings.h:
+
+wolfssl/wolfcrypt/visibility.h:
