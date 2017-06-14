@@ -2,7 +2,7 @@
  * main.c
  *
  *  Created on: 21.10.2016
- *      Author: lukasz.zarnecki
+ *      Author: michal.stroka
  */
 
 #include <stdio.h>
@@ -14,9 +14,12 @@
 #include "../inc/timer/timer.h"
 /* SHA */
 #include "../inc/sha/test_sha.h"
+/* SHA-moje */
+#include "../inc/sha-moje/sha256-moje.h"
 /* AES */
 #include "../inc/aes/test_aes.h"
 
+//#include "wolfssl/wolfcrpyt/sha256.h"
 
 /* Semihosting */
 extern void initialise_monitor_handles(void);
@@ -37,7 +40,9 @@ int main()
     uint8_t iv[16] ;
     uint8_t key[16] ;
     Aes aes;
-    test_aes_init(&timerHandle, &aes, key, iv, NUMBER_OF_MEASUREMENTS);
+    sha256_moje_test(&timerHandle);
+	printf("WOLF\n");
+	test_sha(&timerHandle, 2, 30);
     /*
      * Examples of execution
      */

@@ -53,6 +53,7 @@ PATH: /c/Program Files (x86)/GNU Tools ARM Embedded/4.9 2015q3/bin
 PATH: /c/Program Files (x86)/GNU Tools ARM Embedded/4.9 2015q3/arm-none-eabi/bin
 PATH: /c/MinGW/msys/1.0/bin
 PATH: /c/Program Files (x86)/Skype/Phone
+PATH: /c/Program Files/MiKTeX 2.9/miktex/bin/x64
 PATH: /usr/bin/vendor_perl
 PATH: /usr/bin/core_perl
 
@@ -634,7 +635,7 @@ configure:16741: checking whether make supports nested variables
 configure:16758: result: yes
 configure:16772: checking for gethostbyname
 configure:16772: /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc -o conftest -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -fvisibility=hidden  -lc -specs=nosys.specs conftest.c  >&5
-C:\Users\MICHAL~1.STR\AppData\Local\Temp\ccsXovN7.o: In function `main':
+C:\Users\MICHAL~1.STR\AppData\Local\Temp\ccepvGO2.o: In function `main':
 conftest.c:(.text+0x4): undefined reference to `gethostbyname'
 collect2.exe: error: ld returned 1 exit status
 configure:16772: $? = 1
@@ -699,7 +700,7 @@ configure: failed program was:
 configure:16772: result: no
 configure:16783: checking for getaddrinfo
 configure:16783: /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc -o conftest -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -fvisibility=hidden  -lc -specs=nosys.specs conftest.c  >&5
-C:\Users\MICHAL~1.STR\AppData\Local\Temp\ccmMqYSB.o: In function `main':
+C:\Users\MICHAL~1.STR\AppData\Local\Temp\ccIcLiC2.o: In function `main':
 conftest.c:(.text+0x4): undefined reference to `getaddrinfo'
 collect2.exe: error: ld returned 1 exit status
 configure:16783: $? = 1
@@ -772,7 +773,7 @@ configure:16805: $? = 0
 configure:16805: result: yes
 configure:16816: checking for inet_ntoa
 configure:16816: /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc -o conftest -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -fvisibility=hidden  -lc -specs=nosys.specs conftest.c  >&5
-C:\Users\MICHAL~1.STR\AppData\Local\Temp\cciqQxvk.o: In function `main':
+C:\Users\MICHAL~1.STR\AppData\Local\Temp\ccmzBxdW.o: In function `main':
 conftest.c:(.text+0x4): undefined reference to `inet_ntoa'
 collect2.exe: error: ld returned 1 exit status
 configure:16816: $? = 1
@@ -846,7 +847,7 @@ configure:16827: $? = 0
 configure:16827: result: yes
 configure:16838: checking for socket
 configure:16838: /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc -o conftest -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -fvisibility=hidden  -lc -specs=nosys.specs conftest.c  >&5
-C:\Users\MICHAL~1.STR\AppData\Local\Temp\ccuy0tZV.o: In function `main':
+C:\Users\MICHAL~1.STR\AppData\Local\Temp\cc0ElStL.o: In function `main':
 conftest.c:(.text+0x4): undefined reference to `socket'
 collect2.exe: error: ld returned 1 exit status
 configure:16838: $? = 1
@@ -3053,7 +3054,7 @@ configure:23463: checking for fast RSA
 configure:23478: result: no
 configure:23847: checking for library containing gethostbyname
 configure:23878: /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc -o conftest -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -fvisibility=hidden  -lc -specs=nosys.specs conftest.c  >&5
-C:\Users\MICHAL~1.STR\AppData\Local\Temp\ccuVdquO.o: In function `main':
+C:\Users\MICHAL~1.STR\AppData\Local\Temp\cc521MNa.o: In function `main':
 conftest.c:(.text+0x4): undefined reference to `gethostbyname'
 collect2.exe: error: ld returned 1 exit status
 configure:23878: $? = 1
@@ -3160,7 +3161,7 @@ configure: failed program was:
 configure:23895: result: no
 configure:23903: checking for library containing socket
 configure:23934: /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc -o conftest -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -fvisibility=hidden  -lc -specs=nosys.specs conftest.c  >&5
-C:\Users\MICHAL~1.STR\AppData\Local\Temp\cchCOuuj.o: In function `main':
+C:\Users\MICHAL~1.STR\AppData\Local\Temp\cckLyIth.o: In function `main':
 conftest.c:(.text+0x4): undefined reference to `socket'
 collect2.exe: error: ld returned 1 exit status
 configure:23934: $? = 1
