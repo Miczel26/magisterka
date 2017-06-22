@@ -1,0 +1,30 @@
+\documentclass[printmode]{mgr}
+%opcje klasy dokumentu mgr.cls zostaÄšÂy opisane w doÄšÂĂÂczonej instrukcji
+
+%poniÄšĹşej deklaracje uÄšĹşycia pakietÄĹw, usunĂÂĂÂ to co jest niepotrzebne
+	\usepackage{polski}       %przydatne podczas skÄšÂadania dokumentÄĹw w
+%j. polskim 
+%\usepackage[polish]{babel} %alternatywnie do pakietu
+%polski, wybraĂÂ jeden z nich
+\usepackage[utf8]{inputenc} %kodowanie znakÄĹw, zaleÄšĹşne od systemu
+
+\usepackage[T1]{fontenc} %poprawne skÄšÂadanie polskich czcionek
+\usepackage{amsmath}
+%tutaj zaczyna się właśniwa treść	 dokumentu
+\begin{document}
+
+\chapter{Utils features}
+Pomiar czasu został przeprowadzony za pomocą biblioteki HAL. Został wybrany 32-bitowy timer pozwalający na pomiar z dokładnością $\frac{1}{48000000}$ sekundy i łącznym czasem pomiaru $2^{32} * \frac{1}{48000000} \approx$ 90 sekund
+
+\texttt{
+&void TimerInit( TIM\_HandleTypeDef *timerHandle)\\
+\{\\
+timerHandle->Instance = TIM2;\\
+\_\_TIM2\_CLK\_ENABLE();\\
+timerHandle->Init.Prescaler = 1;\\
+timerHandle->Init.CounterMode = TIM\_COUNTERMODE\_UP;\\
+    timerHandle->Init.Period = 0xFFFFFFFF;\\
+    timerHandle->Init.ClockDivision = 1;\\
+}
+
+\end{document}
