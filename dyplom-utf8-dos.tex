@@ -2,9 +2,9 @@
 %opcje klasy dokumentu mgr.cls zostaÄšÂy opisane w doÄšÂĂÂczonej instrukcji
 
 %poniÄšĹşej deklaracje uÄšĹşycia pakietÄĹw, usunĂÂĂÂ to co jest niepotrzebne
-	\usepackage{polski}       %przydatne podczas skÄšÂadania dokumentÄĹw w
+%\usepackage{polski}       %przydatne podczas skÄšÂadania dokumentÄĹw w
 %j. polskim 
-%\usepackage[polish]{babel} %alternatywnie do pakietu
+\usepackage[polish]{babel} %alternatywnie do pakietu
 %polski, wybraĂÂ jeden z nich
 \usepackage[utf8]{inputenc} %kodowanie znakÄĹw, zaleÄšĹşne od systemu
 \usepackage[T1]{fontenc} %poprawne skÄšÂadanie polskich czcionek
@@ -36,14 +36,12 @@
                                            %składania twierdzeń
 
 %dane do zÄšÂoÄšĹşenia strony tytuÄšÂowej
-\title{Tytuł pracy magisterskiej}
+\title{Tytuł pracy magisterskiej}
 \engtitle{Master thesis title}
 \author{Michał Stroka}
 \supervisor{dr inż. Grzegorz Budzyń, I-6}
-%\guardian{dr hab. inÄšĹş. ImiĂÂ Nazwisko Prof. PWr, I-6} %nie uÄšĹşywaĂÂ
-%jeÄšÂli opiekun jest tĂÂ samĂÂ osobĂÂ co prowadzĂÂcy pracĂÂ
 
-%\date{2008} %standardowo u dołu strony tytułowej umieszczany jest
+\date{2017} %standardowo u dołu strony tytułowej umieszczany jest
 %bieÄšĹşĂÂcy rok, to polecenie pozwala wstawiĂÂ dowolny rok
 
 %poniÄšĹşej jest lista kierunkÄĹw i specjalnoÄšÂci na wydziale elektroniki,
@@ -57,9 +55,9 @@
 \bibliographystyle{plabbrv} %tylko gdy uÄšĹşywamy BibTeXa, ustawia polski
                             %styl bibliografii
 
-\maketitle 
+\maketitle
 
-\tableofcontents %spis treÄšÂci
+\tableofcontents %spis treści
 
 %poniżej znajduje się przykładowa treść dalszej części dokumentu,
 %zainteresowanych zachęcam do rozszyfrowania frazy "Lorem ipsum" :)
@@ -80,6 +78,51 @@ porttitor. Duis sapien. Sed vel quam. Nullam volutpat facilisis magna.
 
 Celem pracy jest zbadanie możliwości biblioteki kryptograficznej wolfSSL na platformie STM32F2.
 Porównane będzie gotowa implementacja z autorską próbą optymalizacji wybranych algorytmów szeregowych.
+
+\chapter{Konfiguracja środowiska}
+\section{Instalowanie IDE do programowania STM32}
+
+W pracy zdecydowano się użyć toolchain'u dedykowanego do STM32 dla aplikacji bare metalowych (bez nadrzędnego systemu operacyjnego) GNU ARM Embedded Toolchain. Posiada on kompilator arm-gcc-none-eabi, który wspiera kompilację na większość platform z rodzin Cortex-M i Cortex-R, w szczególności na interesujący nas Cortex-M7. Posiada też wbudowany debugger GDB (GNU Debugger), który pozwala podejrzeć co dzieje się wewnątrz programu (aktualne wartości zmiennych, rejestrów procesora, adresów w pamięci, licznik programu) oraz pozwala na sterowanie jego przebiegiem przez zatrzymywanie cyklu programu w kluczowych momentach przez brakepointy, czy przechodzenie ,,krok po kroku'' między instrukjami.
+
+Do zarządzania procesem budowania został użyty program make. Pozwala on na łatwe ustawianie reguł w jaki sposób należy budować poszczególne pliki, ustawia ścieżki do dołączania plików, czy wybór wersji biblioteki z której chcemy korzystać. Dzięki dobremu plikowi Makefile można posiadać wiele konfiguracji do budowania programu i wybierać odpowiednią za pomocą opcji wywołania programu make np. \textit{make all LIBRARY=wolfssl\_no\_hardwarecrypto }
+
+Do wgrywania zbudowanego program został użyty programator SEGGER, który jest już wbudowany w płytkę testową. 
+\section{Struktura katalogów w projekcie}
+
+Struktura katalogów w projekcie jest następująca 
+\begin{itemize}
+\item{ldscript}
+\item{libs}
+\begin{itemize}
+\item{Drivers}
+\begin{itemize}
+\item{CMSIS}
+\item{STM32F2\_HAL\_Driver}
+\end{itemize}
+\item{wolfssl-3.9.10}
+\end{itemize}
+\item{misc}
+\item{test\_vectors}
+\item{workspace}
+\begin{itemize}
+\item{src}
+\item{inc}
+\item{build}
+\end{itemize}
+\end{itemize}
+
+W folderze ldscripts znajdują się skrypty linkera. To one definiują m.in. ile pamięci RAM/flash jest dostępne w procesorze oraz definiują podział pamięci na stertę i stos.
+
+W folderze libs, podkatalogu Drivers znajdują się dwie bilioteki procesora STM32F2. Stanowią one swoisty interfejs do części hardwerowej procesora. Pozwalają na zarządzanie np. tatktowania zegarem procesora, konfiguracją timerów, obsługą krpytoprocesorów (badany procesor ma specjalnie dedykowane kryptojednostki wykonujące niektóre algorytmy np. AES, SHA-1) czy portów GPIO.
+
+W folderze libs, podkatalogu wolfssl-3.9.10 znajdują się pliki źródłowe badanej biblioteki wolfSSL oraz zbudowana biblioteka.
+
+W folderze misc znajdują się różne pliki, które nie mają swoich predefiniowanych katalogów. Są tam pliki opisujące sposób biblioteki wolfSSL, czy konfiguracji połączenia między komputerem klasy PC, a płytką testową z mikrokontrolerem STM32.
+
+Folder test\_vectors zawiera dane testowe, które służą do badania wydajnośći poszczególnych implementacji algorytmów. Dzięki wspólnym danym wejściowym, wyniki mogą być bezpośrednio porównywane.
+
+W Folderze workspace, w poczególnych podkatalogach znajdują się pliki źródłowe z moją własną implementacją poszczególnych algorytmów, pliki nagłówkowe, a w katalogu pliki powstające w momencie budowania całego projektu (pliki obiektowe oraz plik ELF, który jest wgrywany do procesora).
+
 
 \chapter{AES}
 Quisque nibh sapien, lobortis posuere, dignissim id, ultricies ut,
