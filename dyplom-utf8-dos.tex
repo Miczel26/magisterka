@@ -57,7 +57,7 @@
 
 \maketitle
 
-\tableofcontents %spis treÄšÂci
+\tableofcontents %spis treści
 
 %poniżej znajduje się przykładowa treść dalszej części dokumentu,
 %zainteresowanych zachęcam do rozszyfrowania frazy "Lorem ipsum" :)
@@ -80,8 +80,14 @@ Celem pracy jest zbadanie możliwości biblioteki kryptograficznej wolfSSL na pl
 Porównane będzie gotowa implementacja z autorską próbą optymalizacji wybranych algorytmów szeregowych.
 
 \chapter{Konfiguracja środowiska}
+\section{Instalowanie IDE do programowania STM32}
 
-\chapter{Struktura katalogów}
+W pracy zdecydowano się użyć toolchain'u dedykowanego do STM32 dla aplikacji bare metalowych (bez nadrzędnego systemu operacyjnego) GNU ARM Embedded Toolchain. Posiada on kompilator arm-gcc-none-eabi, który wspiera kompilację na większość platform z rodzin Cortex-M i Cortex-R, w szczególności na interesujący nas Cortex-M7. Posiada też wbudowany debugger GDB (GNU Debugger), który pozwala podejrzeć co dzieje się wewnątrz programu (aktualne wartości zmiennych, rejestrów procesora, adresów w pamięci, licznik programu) oraz pozwala na sterowanie jego przebiegiem przez zatrzymywanie cyklu programu w kluczowych momentach przez brakepointy, czy przechodzenie ,,krok po kroku'' między instrukjami.
+
+Do zarządzania procesem budowania został użyty program make. Pozwala on na łatwe ustawianie reguł w jaki sposób należy budować poszczególne pliki, ustawia ścieżki do dołączania plików, czy wybór wersji biblioteki z której chcemy korzystać. Dzięki dobremu plikowi Makefile można posiadać wiele konfiguracji do budowania programu i wybierać odpowiednią za pomocą opcji wywołania programu make np. \textit{make all LIBRARY=wolfssl\_no\_hardwarecrypto }
+
+Do wgrywania zbudowanego program został użyty programator SEGGER, który jest już wbudowany w płytkę testową. 
+\section{Struktura katalogów w projekcie}
 
 Struktura katalogów w projekcie jest następująca 
 \begin{itemize}
@@ -115,7 +121,7 @@ W folderze misc znajdują się różne pliki, które nie mają swoich predefinio
 
 Folder test\_vectors zawiera dane testowe, które służą do badania wydajnośći poszczególnych implementacji algorytmów. Dzięki wspólnym danym wejściowym, wyniki mogą być bezpośrednio porównywane.
 
-W Folderze workspace, w poczególnych podkatalogach znajdują się pliki źródłowe z moją własną implementacją poszczególnych algorytmów, pliki nagłówkowe, a w katalogu pliki powstające w momencie budowania całego projektu (pliki obiektowe oraz plik ELF, któRy jest wgrywany do procesora).
+W Folderze workspace, w poczególnych podkatalogach znajdują się pliki źródłowe z moją własną implementacją poszczególnych algorytmów, pliki nagłówkowe, a w katalogu pliki powstające w momencie budowania całego projektu (pliki obiektowe oraz plik ELF, który jest wgrywany do procesora).
 
 
 \chapter{AES}
