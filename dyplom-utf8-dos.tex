@@ -1,14 +1,14 @@
-\documentclass[printmode]{mgr}
+\documentclass[oneside]{mgr}
 %opcje klasy dokumentu mgr.cls zostaÄšÂy opisane w doÄšÂĂÂczonej instrukcji
 
 %poniÄšĹşej deklaracje uÄšĹşycia pakietÄĹw, usunĂÂĂÂ to co jest niepotrzebne
 %\usepackage{polski}       %przydatne podczas skÄšÂadania dokumentÄĹw w
 %j. polskim 
-\usepackage[polish]{babel} %alternatywnie do pakietu
+%\usepackage[polish]{babel} %alternatywnie do pakietu
 %polski, wybraĂÂ jeden z nich
 \usepackage[utf8]{inputenc} %kodowanie znakÄĹw, zaleÄšĹşne od systemu
 \usepackage[T1]{fontenc} %poprawne skÄšÂadanie polskich czcionek
-
+\usepackage{polski}
 %pakiety do grafiki
 \usepackage{graphicx}
 \usepackage{subfigure}
@@ -24,6 +24,8 @@
 \usepackage{tabularx}
 \usepackage{hhline}
 
+\usepackage{tabto}
+\usepackage{listings} 
 %pakiet wypisujĂÂcy na marginesie etykiety rÄĹwnaÄšÂ i rysunkÄĹw
 %zdefiniowanych przez \label{}, chcĂÂc wygenerowaĂÂ finalnĂÂ wersjĂÂ
 %dokumentu wystarczy usunĂÂĂÂ poniÄšĹşszĂÂ liniĂÂ
@@ -80,13 +82,6 @@ Celem pracy jest zbadanie możliwości biblioteki kryptograficznej wolfSSL na pl
 Porównane będzie gotowa implementacja z autorską próbą optymalizacji wybranych algorytmów szeregowych.
 
 \chapter{Konfiguracja środowiska}
-\section{Instalowanie IDE do programowania STM32}
-
-W pracy zdecydowano się użyć toolchain'u dedykowanego do STM32 dla aplikacji bare metalowych (bez nadrzędnego systemu operacyjnego) GNU ARM Embedded Toolchain. Posiada on kompilator arm-gcc-none-eabi, który wspiera kompilację na większość platform z rodzin Cortex-M i Cortex-R, w szczególności na interesujący nas Cortex-M7. Posiada też wbudowany debugger GDB (GNU Debugger), który pozwala podejrzeć co dzieje się wewnątrz programu (aktualne wartości zmiennych, rejestrów procesora, adresów w pamięci, licznik programu) oraz pozwala na sterowanie jego przebiegiem przez zatrzymywanie cyklu programu w kluczowych momentach przez brakepointy, czy przechodzenie ,,krok po kroku'' między instrukjami.
-
-Do zarządzania procesem budowania został użyty program make. Pozwala on na łatwe ustawianie reguł w jaki sposób należy budować poszczególne pliki, ustawia ścieżki do dołączania plików, czy wybór wersji biblioteki z której chcemy korzystać. Dzięki dobremu plikowi Makefile można posiadać wiele konfiguracji do budowania programu i wybierać odpowiednią za pomocą opcji wywołania programu make np. \textit{make all LIBRARY=wolfssl\_no\_hardwarecrypto }
-
-Do wgrywania zbudowanego program został użyty programator SEGGER, który jest już wbudowany w płytkę testową. 
 \section{Struktura katalogów w projekcie}
 
 Struktura katalogów w projekcie jest następująca 
@@ -111,18 +106,72 @@ Struktura katalogów w projekcie jest następująca
 \end{itemize}
 \end{itemize}
 
-W folderze ldscripts znajdują się skrypty linkera. To one definiują m.in. ile pamięci RAM/flash jest dostępne w procesorze oraz definiują podział pamięci na stertę i stos.
-
-W folderze libs, podkatalogu Drivers znajdują się dwie bilioteki procesora STM32F2. Stanowią one swoisty interfejs do części hardwerowej procesora. Pozwalają na zarządzanie np. tatktowania zegarem procesora, konfiguracją timerów, obsługą krpytoprocesorów (badany procesor ma specjalnie dedykowane kryptojednostki wykonujące niektóre algorytmy np. AES, SHA-1) czy portów GPIO.
-
-W folderze libs, podkatalogu wolfssl-3.9.10 znajdują się pliki źródłowe badanej biblioteki wolfSSL oraz zbudowana biblioteka.
-
-W folderze misc znajdują się różne pliki, które nie mają swoich predefiniowanych katalogów. Są tam pliki opisujące sposób biblioteki wolfSSL, czy konfiguracji połączenia między komputerem klasy PC, a płytką testową z mikrokontrolerem STM32.
-
-Folder test\_vectors zawiera dane testowe, które służą do badania wydajnośći poszczególnych implementacji algorytmów. Dzięki wspólnym danym wejściowym, wyniki mogą być bezpośrednio porównywane.
-
+W folderze ldscripts znajdują się skrypty linkera. To one definiują m.in. ile pamięci RAM/flash jest dostępne w procesorze oraz definiują podział pamięci na stertę i stos.\\
+W folderze libs, podkatalogu Drivers znajdują się dwie bilioteki procesora STM32F2. Stanowią one swoisty interfejs do części hardwerowej procesora. Pozwalają na zarządzanie np. tatktowania zegarem procesora, konfiguracją timerów, obsługą krpytoprocesorów (badany procesor ma specjalnie dedykowane kryptojednostki wykonujące niektóre algorytmy np. AES, SHA-1) czy portów GPIO.\\
+W folderze libs, podkatalogu wolfssl-3.9.10 znajdują się pliki źródłowe badanej biblioteki wolfSSL oraz zbudowana biblioteka.\\
+W folderze misc znajdują się różne pliki, które nie mają swoich predefiniowanych katalogów. Są tam pliki opisujące sposób biblioteki wolfSSL, czy konfiguracji połączenia między komputerem klasy PC, a płytką testową z mikrokontrolerem STM32.\\
+Folder test\_vectors zawiera dane testowe, które służą do badania wydajnośći poszczególnych implementacji algorytmów. Dzięki wspólnym danym wejściowym, wyniki mogą być bezpośrednio porównywane.\\
 W Folderze workspace, w poczególnych podkatalogach znajdują się pliki źródłowe z moją własną implementacją poszczególnych algorytmów, pliki nagłówkowe, a w katalogu pliki powstające w momencie budowania całego projektu (pliki obiektowe oraz plik ELF, który jest wgrywany do procesora).
+\section{Instalowanie IDE do programowania STM32}
 
+W pracy zdecydowano się użyć toolchain'u dedykowanego do STM32 dla aplikacji bare metalowych (bez nadrzędnego systemu operacyjnego) GNU ARM Embedded Toolchain. Posiada on kompilator arm-gcc-none-eabi, który wspiera kompilację na większość platform z rodzin Cortex-M i Cortex-R, w szczególności na interesujący nas Cortex-M7. Posiada też wbudowany debugger GDB (GNU Debugger), który pozwala podejrzeć co dzieje się wewnątrz programu (aktualne wartości zmiennych, rejestrów procesora, adresów w pamięci, licznik programu) oraz pozwala na sterowanie jego przebiegiem przez zatrzymywanie cyklu programu w kluczowych momentach przez brakepointy, czy przechodzenie ,,krok po kroku'' między instrukjami.\\
+Do zarządzania procesem budowania został użyty program make. Pozwala on na łatwe ustawianie reguł w jaki sposób należy budować poszczególne pliki, ustawia ścieżki do dołączania plików, czy wybór wersji biblioteki z której chcemy korzystać. Dzięki dobremu plikowi Makefile można posiadać wiele konfiguracji do budowania programu i wybierać odpowiednią za pomocą opcji wywołania programu make np. \textit{make all LIBRARY=wolfssl\_no\_hardwarecrypto }
+
+Do wgrywania zbudowanego program został użyty programator SEGGER, który jest już wbudowany w płytkę testową.
+
+Ostantim używanym programem jest OpenOCD (Open On Chip Debugger). Za pomocą interfejsu JTAG dostępnego na płytce komunikuje się on z procesorem, umożliwia semihosting czyli przekazywanie danych z/do komputera w czasie pracy mikroprocesora.
+
+\section{Kompilowanie biblioteki}
+
+Pierwszym krokiem do zbudowania biblioteki jest wybór platformy, na której kod będzie wykonywany. W tym celu edytujemy plik \textit{settings.h} znajdujące się w katalogu \textit{wolfssl-3.9.10/wolfssl/wolfcrypt/}. Ponieważ naszą platformą jest STM32F2, to w pliku odkomentowujemy \#define WOLFSSL\_STM32F2 (linia 92). W późniejszej fazie pracy z biblioteką, okazało się że w pliku trzeba też usunąć \#define KEIL\_INTRINSICS (linia 766). WolfSSL w wersji 3.9.10 jawnie zakłada, że jedynym kompilatorem służącym do zbudowania biblioteki jest płatny kompilator Keil'a. Po usunięciu tej instrukcji dodającej funkcje kompilatora Keil, biblioteka kompiluje się również przy użyciu arm-gcc-none-eabi oraz dowolnych innych kompilatorów języka C na platformę STM32F2.
+W celu dalszej konfiguracji biblioteki powstał następujący skrypt bashowy:\\
+\texttt{
+CC=/c/GNU\_Tools\_ARM\_Embedded/4.9\_2015q3/bin/arm-none-eabi-gcc\\
+AR=/c/GNU\_Tools\_ARM\_Embedded/4.9\_2015q3/bin/arm-none-eabi-ar\\
+RANLIB=/c/GNU\_Tools\_ARM\_Embedded/4.9\_2015q3/arm-none-eabi/bin/ranlib\\
+LDFLAGS=" -lc -specs=nosys.specs"\\
+CFLAGS="-mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO\_WRITEV -DWOLFSSL\_USER\_IO -DWOLFCRYPT\_ONLY\\-I/Drivers/CMSIS/Include\\-I/Drivers/CMSIS/Device/ST/STM32F2xx/Include\\-I/Drivers/STM32F2xx\_StdPeriph\_Lib\_V1.1.0/Libraries/STM32F2xx\_StdPeriph\_Driver/src\\-I/Drivers/STM32F2xx\_HAL\_Driver/Inc \\-I/Drivers/STM32F2xx\_HAL\_Driver/Src\\-I/Drivers/STM32F2xx\_StdPeriph\_Lib\_V1.1.0/Libraries/STM32F2xx\_StdPeriph\_Driver/inc"\\
+./configure --host=arm-none-eabi CC=\$CC AR=\$AR RANLIB=\$RANLIB LDFLAGS="\$LDFLAGS" CFLAGS="\$CFLAGS"	
+}
+\\Zmienna CC przechowuje ścieżkę do kompilatora arm-none-eabi-gcc
+\\Zmienna AR przechowuje ścieżkę do programu ar, służącego do tworzenia/modyfikowania/wyciągania danych z archiwum
+\\Zmienna RANLIB przechowuje ścieżkę do programu ranlib, który tworzy indeksowaną listę symboli w archiwum
+\\Zmienna LDFLAGS zawiera dodatkowe flagi dla linkera. Flaga -lc dodaje bibliotekę libc.a do kompilacji, flaga -specs=nosys.specs oznacza, że aplikacja będzie działała na platformie bez systemu operacyjnego i funkcje systemowe jak np. malloc muszą być dodane przez kompilator
+\\Zmienna CFLAGS zawiera dodatkowe zmienne dla kompilatora. Zmienna -mcpu=cortex-m3 oznacza że program będzie wykonywany na platformie Cortex-M3, -march=armv7-m określa architekturę procesora jako ARMv7-M, -mthumb dodaje rozszerzony zestaw instrukcji asemblerowych Thumb, -mlittle-endian oznacza że zmienne w procesorze są pzechowywane w formacie little endian (najmniej znaczący bit jest najmłodszy). Flagi -NO\_WRITEV -WOLFSSL\_USER\_IO oznaczają, że w systemie nie ma żadnych instrukcji wejścia/wyjścia, a użytkownik posiada swoje funkcje IO (eng. input/output). Kolejne flagi zaczynające się od I/ zawierają ścieżki do plików nagłóWkowych i żródłowych bibliotek STM32F2.
+\\Ostatnia linia skryptu wywołuje inny skrypt dostarczany przez WolfSSL, który przetwarza wszystkie dane i tworzy własny plik Makefile.
+Tak przygotowany plik jest do kompilacji. Poleceniem \textit{make src/libwolfssl.la} kompilujemy bibliotekę do pliku libwolfssl.la. 
+
+\chapter{Pomiar czasu}
+Pomiar czasu można wykonać na dwa podstawowe sposoby: przez zastosowanie portów GPIO, lub przez użycie wewnętrznych timerów procesora. Pierwszy sposób zakłada zmianę stanu napięcia w chwilach rozpoczęcia i zakończenia wykonywania algorytmu, a następnie dzięki podpięciu oscyloskopu pomiar częstotliwości zmian napięcia na wybranym pinie. Drugi sposób wykorzystuje timery procesora, który jest w stanie zliczać impulsy z częstotliwością równą częstotliwości taktowania procesora, czyli 96 MHz. W pracy zdecydowano się na drugi sposób z uwagi na łatwiejszą konfigurację projektu oraz pełną automatyzację wykonywania pomiarów.
+Konfiguracja wewnętrznych timerów została przeprowadzona za pomocą biblioteki HAL. Został wybrany 32-bitowy licznik zliczający przejścia zegara procesora z logicznego ,,0'' na ,,1''. W ten sposób uzyskany został pomiar z dokładnością do $\frac{1}{48000000}$ sekundy i maksymalną mierzoną wartością $2^{32} * \frac{1}{48000000} \approx$ 90 sekund. Do pomiaru czasu służą 3 proste funkcje: inicjalizująca timer, rozpoczynająca oraz kończąca pomiar.
+\\Funkcja inicjująca najpierw wybiera timer2 (32-bitowy), ustawia preskaler oraz dzielnik częstotliwości na 1 aby osiągnąć maksymalną dokładność pomiaru oraz ustawia kierunek zliczania impulsów w górę i makysmalną wartość timera na 0xFFFFFFFF:\\
+\texttt{
+void TimerInit( TIM\_HandleTypeDef *timerHandle)\\
+\{\\
+\hspace*{10mm}timerHandle->Instance = TIM2;\\
+\hspace*{10mm}\_\_TIM2\_CLK\_ENABLE();\\
+\hspace*{10mm}timerHandle->Init.Prescaler = 1;\\
+\hspace*{10mm}timerHandle->Init.CounterMode = TIM\_COUNTERMODE\_UP;\\
+\hspace*{10mm}timerHandle->Init.Period = 0xFFFFFFFF;\\
+\hspace*{10mm}timerHandle->Init.ClockDivision = 1;\\\}\\
+}
+\\Funkcja rozpoczynająca pomiar, wołana po inicjacji timera ustawia aktualną wartość zliczany impulsów:\\
+\texttt{
+void TimerStart(TIM\_HandleTypeDef *timerHandle)\\
+\{\\
+\hspace*{10mm}timerHandle->Instance->CNT = 0;\\
+\}\\
+}
+\\Funkcja kończąca pomiar, wołana po inicjacji timera odczytuje aktualną ilość zliczonych impulsów i zwraca jej wartość:\\
+\texttt{
+uint32\_t TimerStop(TIM\_HandleTypeDef *timerHandle)\\
+\{\\
+\hspace*{10mm}return timerHandle->Instance->CNT;\\
+\}
+}
+
+\chapter{Biblioteka WolfSSL}
+WolfSSL to opensourcowa biblioteka kryptograficzna napisana w języku C. Jest przeznaczona przede wszystkim na systemy wbudowane ze względu na mały rozmiar, wysoką prędkość biblioteki, oraz optymalizację na wiele platform embedded na czele z STM32, freescalem czy Texas Instrument. W bibliotece znajduje się silnik kryptograficzny wolfcrypt, który został poddany badaniom. W celu pobrania kodów źródłowych biblioteki wchodzimy na stronę producenta: www.wolfssl.com i pobieramy bibliotekę w najnowszej wersji 3.9.10
 
 \chapter{AES}
 Quisque nibh sapien, lobortis posuere, dignissim id, ultricies ut,

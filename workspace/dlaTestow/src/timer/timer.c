@@ -1,10 +1,3 @@
-/*
- * timer.c
- *
- *  Created on: 31.10.2016
- *      Author: lukasz.zarnecki
- */
-
 #include "timer.h"
 
 void TimerInit(TIM_HandleTypeDef *timerHandle)

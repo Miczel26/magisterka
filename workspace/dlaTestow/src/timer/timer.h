@@ -1,9 +1,3 @@
-/*
- * timer.h
- *
- *  Created on: 31.10.2016
- *      Author: lukasz.zarnecki
- */
 
 #ifndef TIMER_TIMER_H_
 #define TIMER_TIMER_H_
