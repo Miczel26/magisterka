@@ -4,11 +4,11 @@
 %poniÄšĹşej deklaracje uÄšĹşycia pakietÄĹw, usunĂÂĂÂ to co jest niepotrzebne
 %\usepackage{polski}       %przydatne podczas skÄšÂadania dokumentÄĹw w
 %j. polskim 
-%\usepackage[polish]{babel} %alternatywnie do pakietu
+\usepackage[polish]{babel} %alternatywnie do pakietu
 %polski, wybraĂÂ jeden z nich
 \usepackage[utf8]{inputenc} %kodowanie znakÄĹw, zaleÄšĹşne od systemu
 \usepackage[T1]{fontenc} %poprawne skÄšÂadanie polskich czcionek
-\usepackage{polski}
+%\usepackage{polski}
 %pakiety do grafiki
 \usepackage{graphicx}
 \usepackage{subfigure}
@@ -51,7 +51,7 @@
 \field{Automatyka i Robotyka (AIR)}
 
 \specialisation{Komputerowe sieci sterowania (ARK)}
-
+\graphicspath{ {./img/} }
 %tutaj zaczyna się właśniwa treść	 dokumentu
 \begin{document}
 \bibliographystyle{plabbrv} %tylko gdy uÄšĹşywamy BibTeXa, ustawia polski
@@ -81,7 +81,16 @@ porttitor. Duis sapien. Sed vel quam. Nullam volutpat facilisis magna.
 Celem pracy jest zbadanie możliwości biblioteki kryptograficznej wolfSSL na platformie STM32F2.
 Porównane będzie gotowa implementacja z autorską próbą optymalizacji wybranych algorytmów szeregowych.
 
+
 \chapter{Konfiguracja środowiska}
+
+Platformą testową, na której badana jest wydajność biblioteki WolfSSL to płytka testowa STM3221G-EVAL z mikroprocesorem STM32F217IG. Procesor ten posiada specjalnie dedykowane hardware'owe jednostki kryptograficzne, które pozwalają na znaczne przyspieszenie niektórych algorytmów dzięki sprzętowemu wykonywaniu części obliczeń.  Algorytmy symetryczne, dla których wsparcie sprzętowe posiada wyżej wymieniony procesor, to AES, DES, MD5 i SHA-1. Wszystkie one mogą być wykorzystywane przez bibliotekę WolfSSL. W pracy zostaną porównane wydajności algorytmów z i bez użycia kryptojednostek oraz porównanie czasów z własną implementacją algorytmów.\
+\begin{center}
+\includegraphics[width = \textwidth]{stm3221g-eval}
+\\Rys. 1. Płytka testowa stm3221g-eval
+\end{center}
+
+
 \section{Struktura katalogów w projekcie}
 
 Struktura katalogów w projekcie jest następująca 
@@ -142,7 +151,12 @@ CFLAGS="-mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO\_WRITEV -DWO
 Tak przygotowany plik jest do kompilacji. Poleceniem \textit{make src/libwolfssl.la} kompilujemy bibliotekę do pliku libwolfssl.la. 
 
 \chapter{Pomiar czasu}
-Pomiar czasu można wykonać na dwa podstawowe sposoby: przez zastosowanie portów GPIO, lub przez użycie wewnętrznych timerów procesora. Pierwszy sposób zakłada zmianę stanu napięcia w chwilach rozpoczęcia i zakończenia wykonywania algorytmu, a następnie dzięki podpięciu oscyloskopu pomiar częstotliwości zmian napięcia na wybranym pinie. Drugi sposób wykorzystuje timery procesora, który jest w stanie zliczać impulsy z częstotliwością równą częstotliwości taktowania procesora, czyli 96 MHz. W pracy zdecydowano się na drugi sposób z uwagi na łatwiejszą konfigurację projektu oraz pełną automatyzację wykonywania pomiarów.
+Pomiar czasu można wykonać na dwa podstawowe sposoby: przez zastosowanie portów GPIO, lub przez użycie wewnętrznych timerów procesora. Pierwszy sposób zakłada zmianę stanu napięcia w chwilach rozpoczęcia i zakończenia wykonywania algorytmu, a następnie dzięki podpięciu oscyloskopu pomiar częstotliwości zmian napięcia na wybranym pinie. Drugi sposób wykorzystuje timery procesora, który jest w stanie zliczać impulsy z częstotliwością równą częstotliwości taktowania procesora, czyli 96 MHz. W pracy zdecydowano się na drugi sposób z uwagi na łatwiejszą konfigurację projektu oraz pełną automatyzację wykonywania pomiarów.\\
+\begin{center}
+\includegraphics[width = \textwidth]{liczniki}
+\\Rys. 2. Schemat konfiguracji licznika
+\end{center}
+
 Konfiguracja wewnętrznych timerów została przeprowadzona za pomocą biblioteki HAL. Został wybrany 32-bitowy licznik zliczający przejścia zegara procesora z logicznego ,,0'' na ,,1''. W ten sposób uzyskany został pomiar z dokładnością do $\frac{1}{48000000}$ sekundy i maksymalną mierzoną wartością $2^{32} * \frac{1}{48000000} \approx$ 90 sekund. Do pomiaru czasu służą 3 proste funkcje: inicjalizująca timer, rozpoczynająca oraz kończąca pomiar.
 \\Funkcja inicjująca najpierw wybiera timer2 (32-bitowy), ustawia preskaler oraz dzielnik częstotliwości na 1 aby osiągnąć maksymalną dokładność pomiaru oraz ustawia kierunek zliczania impulsów w górę i makysmalną wartość timera na 0xFFFFFFFF:\\
 \texttt{
