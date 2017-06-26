@@ -27,11 +27,11 @@ void test_sha(TIM_HandleTypeDef *timerHandle, uint8_t shaType, uint8_t nrOfMeasu
         {
             TimerStart(timerHandle);
             wc_InitSha(&sha);
-            printf("%d ", TimerStop(timerHandle));
+            printf("%d;", TimerStop(timerHandle));
 
             TimerStart(timerHandle);
             wc_ShaUpdate(&sha, Sha1OneBlock, sizeof(Sha1OneBlock));
-            printf("%d ", TimerStop(timerHandle));
+            printf("%d;", TimerStop(timerHandle));
 
             TimerStart(timerHandle);
             wc_ShaFinal(&sha, output);
@@ -65,11 +65,11 @@ void test_sha(TIM_HandleTypeDef *timerHandle, uint8_t shaType, uint8_t nrOfMeasu
         {
             TimerStart(timerHandle);
             wc_InitSha256(&sha);
-            printf("%d ", TimerStop(timerHandle));
+            printf("%d;", TimerStop(timerHandle));
 
             TimerStart(timerHandle);
             wc_Sha256Update(&sha, Sha256OneBlock, sizeof(Sha256OneBlock));
-            printf("%d ", TimerStop(timerHandle));
+            printf("%d;", TimerStop(timerHandle));
 
             TimerStart(timerHandle);
             wc_Sha256Final(&sha, output);

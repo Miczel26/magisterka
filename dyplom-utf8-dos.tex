@@ -183,7 +183,53 @@ uint32\_t TimerStop(TIM\_HandleTypeDef *timerHandle)\\
 \hspace*{10mm}return timerHandle->Instance->CNT;\\
 \}
 }
+\section{Wyniki dla SHA1}
+Przykładowe wyniki pomiarów dla 30 wykonań algorytmu SHA-1 wyglądają następująco:
+\begin{center}
 
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline 
+\multicolumn{4}{|c|}{Software crypto} & \multicolumn{4}{|c|}{hadware crypto} \\
+\hline 
+\multicolumn{2}{|c|}{32 bajty} & \multicolumn{2}{|c|}{64 bajty} & \multicolumn{2}{|c|}{32 bajty} & \multicolumn{2}{|c|}{64 bajty} \\
+\hline 
+licznik & czas[ms] & licznik & czas[ms] & licznik & czas[ms] & licznik & czas[ms] \\
+\hline 
+690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1262 &	0.026 &	252 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	252 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+692 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1261 &	0.026 &	252 &	0.005 &	318 &	0.007 \\
+691 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+691 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1270 &	0.026 &	252 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	252 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1261 &	0.026 &	252 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
+690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+
+\hline 
+\end{tabular} 
+
+\end{center}
 \chapter{Biblioteka WolfSSL}
 WolfSSL to opensourcowa biblioteka kryptograficzna napisana w języku C. Jest przeznaczona przede wszystkim na systemy wbudowane ze względu na mały rozmiar, wysoką prędkość biblioteki, oraz optymalizację na wiele platform embedded na czele z STM32, freescalem czy Texas Instrument. W bibliotece znajduje się silnik kryptograficzny wolfcrypt, który został poddany badaniom. W celu pobrania kodów źródłowych biblioteki wchodzimy na stronę producenta: www.wolfssl.com i pobieramy bibliotekę w najnowszej wersji 3.9.10
 

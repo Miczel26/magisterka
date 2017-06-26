@@ -37,12 +37,9 @@ int main()
 
     TIM_HandleTypeDef timerHandle;
     TimerInit(&timerHandle);
-    uint8_t iv[16] ;
-    uint8_t key[16] ;
-    Aes aes;
-    sha256_moje_test(&timerHandle);
+
 	printf("WOLF\n");
-	test_sha(&timerHandle, 2, 30);
+	test_sha(&timerHandle, 1, 30);
     /*
      * Examples of execution
      */

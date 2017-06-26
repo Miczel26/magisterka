@@ -18,6 +18,9 @@
 extern "C" {
 #endif
 
+#undef  STM32F2_HASH
+#define STM32F2_HASH
+
 #undef  NO_ECC
 #define NO_ECC
 

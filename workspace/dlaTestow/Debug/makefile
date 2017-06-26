@@ -128,6 +128,9 @@ $(SYSTEM_OBJ_DIR)/stm32f2xx_cryp.o: $(STD_PERIPH_SRC)/stm32f2xx_cryp.c
 $(SYSTEM_OBJ_DIR)/stm32f2xx_rcc.o: $(STD_PERIPH_SRC)/stm32f2xx_rcc.c
 	$(CC) -c -std=$(LANG_STD) $(TARGET_FLAGS) $(OPTYMIZATION_FLAGS) $(DEBUG_FLAGS) $(INC_FLAGS) -o $(SYSTEM_OBJ_DIR)/stm32f2xx_rcc.o $(STD_PERIPH_SRC)/stm32f2xx_rcc.c
 	
+$(SYSTEM_OBJ_DIR)/stm32f2xx_hash.o: $(STD_PERIPH_SRC)/stm32f2xx_hash.c
+	$(CC) -c -std=$(LANG_STD) $(TARGET_FLAGS) $(OPTYMIZATION_FLAGS) $(DEBUG_FLAGS) $(INC_FLAGS) -o $(SYSTEM_OBJ_DIR)/stm32f2xx_hash.o $(STD_PERIPH_SRC)/stm32f2xx_hash.c
+	
 #TIMER module
 TIMER_SRC_DIR = $(SRC_DIR)/timer
 TIMER_OBJ_DIR = $(OBJ_DIR)/timer
@@ -188,7 +191,7 @@ dlaTestow: $(BUILD_DIR)/dlaTestow.elf $(BUILD_DIR)/dlaTestow.hex
 #All objects
 objects = $(OBJ_DIR)/main.o \
 $(HAL_OBJ_DIR)/stm32f2xx_hal_cortex.o $(HAL_OBJ_DIR)/stm32f2xx_hal_rcc.o $(HAL_OBJ_DIR)/stm32f2xx_hal_tim_ex.o $(HAL_OBJ_DIR)/stm32f2xx_hal_tim.o $(HAL_OBJ_DIR)/stm32f2xx_hal.o \
-$(SYSTEM_OBJ_DIR)/$(CMSIS_STARTUP_FILE).o $(SYSTEM_OBJ_DIR)/system_stm32f2xx.o $(SYSTEM_OBJ_DIR)/stm32f2xx_cryp.o $(SYSTEM_OBJ_DIR)/stm32f2xx_rcc.o \
+$(SYSTEM_OBJ_DIR)/$(CMSIS_STARTUP_FILE).o $(SYSTEM_OBJ_DIR)/system_stm32f2xx.o $(SYSTEM_OBJ_DIR)/stm32f2xx_cryp.o $(SYSTEM_OBJ_DIR)/stm32f2xx_rcc.o $(SYSTEM_OBJ_DIR)/stm32f2xx_hash.o \
 $(TIMER_OBJ_DIR)/timer.o \
 $(SHA_OBJ_DIR)/test_sha.o \
 $(AES_OBJ_DIR)/test_aes.o \
