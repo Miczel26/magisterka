@@ -304,7 +304,7 @@ check_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3)
 #	ctaocrypt/src/sha256.c
 #am__append_5 = ctaocrypt/src/rsa.c
 #am__append_6 = ctaocrypt/src/aes.c
-##am__append_7 = ctaocrypt/src/des3.c
+#am__append_7 = ctaocrypt/src/des3.c
 #am__append_8 = ctaocrypt/src/sha.c
 ##am__append_9 = ctaocrypt/src/sha512.c
 
@@ -321,7 +321,7 @@ am__append_16 = wolfcrypt/src/rsa.c
 #am__append_17 = wolfcrypt/src/port/arm/armv8-aes.c
 am__append_18 = wolfcrypt/src/aes.c
 #am__append_19 = wolfcrypt/src/cmac.c
-#am__append_20 = wolfcrypt/src/des3.c
+am__append_20 = wolfcrypt/src/des3.c
 am__append_21 = wolfcrypt/src/sha.c
 #am__append_22 = wolfcrypt/src/sha512.c
 am__append_23 = wolfcrypt/src/memory.c
@@ -344,8 +344,8 @@ am__append_30 = wolfcrypt/src/md5.c
 am__append_40 = wolfcrypt/src/chacha.c
 am__append_41 = wolfcrypt/src/chacha20_poly1305.c
 #am__append_42 = wolfcrypt/src/misc.c
-am__append_43 = wolfcrypt/src/tfm.c
-#am__append_44 = wolfcrypt/src/integer.c
+#am__append_43 = wolfcrypt/src/tfm.c
+am__append_44 = wolfcrypt/src/integer.c
 #am__append_45 = wolfcrypt/src/ecc.c
 #am__append_46 = wolfcrypt/src/curve25519.c
 #am__append_47 = wolfcrypt/src/ed25519.c
@@ -533,7 +533,7 @@ am__dirstamp = $(am__leading_dot)dirstamp
 #	ctaocrypt/src/src_libwolfssl_la-sha256.lo
 #am__objects_2 = ctaocrypt/src/src_libwolfssl_la-rsa.lo
 #am__objects_3 = ctaocrypt/src/src_libwolfssl_la-aes.lo
-##am__objects_4 = ctaocrypt/src/src_libwolfssl_la-des3.lo
+#am__objects_4 = ctaocrypt/src/src_libwolfssl_la-des3.lo
 #am__objects_5 = ctaocrypt/src/src_libwolfssl_la-sha.lo
 ##am__objects_6 = ctaocrypt/src/src_libwolfssl_la-sha512.lo
 #am__objects_7 =  \
@@ -551,8 +551,8 @@ am__objects_13 = wolfcrypt/src/src_libwolfssl_la-rsa.lo
 am__objects_15 = wolfcrypt/src/src_libwolfssl_la-aes.lo
 #am__objects_16 =  \
 #	wolfcrypt/src/src_libwolfssl_la-cmac.lo
-#am__objects_17 =  \
-#	wolfcrypt/src/src_libwolfssl_la-des3.lo
+am__objects_17 =  \
+	wolfcrypt/src/src_libwolfssl_la-des3.lo
 am__objects_18 =  \
 	wolfcrypt/src/src_libwolfssl_la-sha.lo
 #am__objects_19 =  \
@@ -591,9 +591,9 @@ am__objects_37 =  \
 am__objects_38 = wolfcrypt/src/src_libwolfssl_la-chacha20_poly1305.lo
 #am__objects_39 =  \
 #	wolfcrypt/src/src_libwolfssl_la-misc.lo
-am__objects_40 =  \
-	wolfcrypt/src/src_libwolfssl_la-tfm.lo
-#am__objects_41 = wolfcrypt/src/src_libwolfssl_la-integer.lo
+#am__objects_40 =  \
+#	wolfcrypt/src/src_libwolfssl_la-tfm.lo
+am__objects_41 = wolfcrypt/src/src_libwolfssl_la-integer.lo
 #am__objects_42 =  \
 #	wolfcrypt/src/src_libwolfssl_la-ecc.lo
 #am__objects_43 = wolfcrypt/src/src_libwolfssl_la-curve25519.lo
@@ -1142,7 +1142,7 @@ ACLOCAL = ${SHELL} /c/Users/michal.stroka/Desktop/magisterka/libs/wolfssl-3.9.10
 AMINCLUDE = aminclude.am
 AMTAR = $${TAR-tar}
 AM_CCASFLAGS = 
-AM_CFLAGS = -DSINGLE_THREADED  -DHAVE_THREAD_LS -DNDEBUG -DTFM_TIMING_RESISTANT -DECC_TIMING_RESISTANT -DWC_RSA_BLINDING -DHAVE_AESGCM -DNO_DSA -DNO_RC4 -DNO_HC128 -DNO_RABBIT -DHAVE_POLY1305 -DHAVE_ONE_TIME_AUTH -DHAVE_CHACHA -DHAVE_HASHDRBG -DHAVE_EXTENDED_MASTER -DNO_PSK -DNO_MD4 -DNO_PWDBASED -DUSE_FAST_MATH -DNO_DES3 -Wall -Wno-unused -O2 -fomit-frame-pointer
+AM_CFLAGS = -DSINGLE_THREADED  -DHAVE_THREAD_LS -DNDEBUG -DTFM_TIMING_RESISTANT -DECC_TIMING_RESISTANT -DWC_RSA_BLINDING -DHAVE_AESGCM -DNO_DSA -DNO_RC4 -DNO_HC128 -DNO_RABBIT -DHAVE_POLY1305 -DHAVE_ONE_TIME_AUTH -DHAVE_CHACHA -DHAVE_HASHDRBG -DHAVE_EXTENDED_MASTER -DNO_PSK -DNO_MD4 -DNO_PWDBASED -Wall -Wno-unused -Os -fomit-frame-pointer
 AM_CPPFLAGS =  -fvisibility=hidden
 AM_DEFAULT_VERBOSITY = 0
 AM_LDFLAGS = 
@@ -1154,9 +1154,9 @@ AWK = gawk
 CC = /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc
 CCAS = /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc
 CCASDEPMODE = depmode=gcc3
-CCASFLAGS = -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DSTM32F2_HASH -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY
+CCASFLAGS = -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -DNO_ECC -DNO_RSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY
 CCDEPMODE = depmode=gcc3
-CFLAGS = -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DSTM32F2_HASH -DNO_ECC -DNO_WRITEV -DNO_MD5 -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -Wno-pragmas -Wall -Wno-strict-aliasing -Wextra -Wunknown-pragmas --param=ssp-buffer-size=1 -Waddress -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wundef -Wunused -Wunused-result -Wunused-variable -Wwrite-strings -fwrapv -g -ggdb -Xlinker -Map=output.map 
+CFLAGS = -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO_ECC -DNO_WRITEV -DNO_HMAC -DNO_MD4 -DNO_RC4 -DNO_HC128 -DNO_PSK -DNO_PWDBASED -DNO_CHACHA -DNO_POLY1305 -DNO_DSA -DNO_ECC -DNO_RSA -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Src -I/c/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc -DWOLFSSL_USER_IO -DWOLFCRYPT_ONLY  -Wno-pragmas -Wall -Wno-strict-aliasing -Wextra -Wunknown-pragmas --param=ssp-buffer-size=1 -Waddress -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wundef -Wunused -Wunused-result -Wunused-variable -Wwrite-strings -fwrapv -g -ggdb -Xlinker -Map=output.map 
 CFLAG_VISIBILITY = -fvisibility=hidden
 CPP = /c/GNU_Tools_ARM_Embedded/4.9_2015q3/bin/arm-none-eabi-gcc -E
 CPPFLAGS =  -fvisibility=hidden -mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -g -ggdb

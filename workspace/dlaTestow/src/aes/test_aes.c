@@ -2,7 +2,7 @@
  * test_sha.c
  *
  *  Created on: 19.12.2016
- *      Author: lukasz.zarnecki
+ *      Author: michal.stroka
  */
 #include "../../inc/aes/test_aes.h"
 #include "../../inc/timer/timer.h"

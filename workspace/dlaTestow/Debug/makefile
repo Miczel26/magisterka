@@ -183,6 +183,15 @@ aes_module: $(AES_OBJ_DIR)/test_aes.o
 $(AES_OBJ_DIR)/test_aes.o: $(AES_SRC_DIR)/test_aes.c 
 	$(CC) -c -std=$(LANG_STD) $(TARGET_FLAGS) $(OPTYMIZATION_FLAGS) $(DEBUG_FLAGS) $(INC_FLAGS) -o $(AES_OBJ_DIR)/test_aes.o $(AES_SRC_DIR)/test_aes.c
 
+	#DES module
+DES_SRC_DIR = $(SRC_DIR)/des
+DES_OBJ_DIR = $(OBJ_DIR)/des
+
+des_module: $(DES_OBJ_DIR)/test_des.o
+
+$(DES_OBJ_DIR)/test_des.o: $(DES_SRC_DIR)/test_des.c 
+	$(CC) -c -std=$(LANG_STD) $(TARGET_FLAGS) $(OPTYMIZATION_FLAGS) $(DEBUG_FLAGS) $(INC_FLAGS) -o $(DES_OBJ_DIR)/test_des.o $(DES_SRC_DIR)/test_des.c
+
 	
 	
 #Linking objects
@@ -195,6 +204,7 @@ $(SYSTEM_OBJ_DIR)/$(CMSIS_STARTUP_FILE).o $(SYSTEM_OBJ_DIR)/system_stm32f2xx.o $
 $(TIMER_OBJ_DIR)/timer.o \
 $(SHA_OBJ_DIR)/test_sha.o \
 $(AES_OBJ_DIR)/test_aes.o \
+$(DES_OBJ_DIR)/test_des.o \
 $(SHA-moje_OBJ_DIR)/test_sha-moje.o 
 
 
@@ -223,5 +233,5 @@ create_dirs:
 # Hal drivers objects dirs
 	mkdir -p $(OBJ_DIR)/hal
 # Module objects dirs
-	mkdir -p $(OBJ_DIR)/timer $(OBJ_DIR)/rng $(OBJ_DIR)/sha $(OBJ_DIR)/aes $(OBJ_DIR)/sha-moje
+	mkdir -p $(OBJ_DIR)/timer $(OBJ_DIR)/rng $(OBJ_DIR)/sha $(OBJ_DIR)/aes $(OBJ_DIR)/des $(OBJ_DIR)/sha-moje
 	

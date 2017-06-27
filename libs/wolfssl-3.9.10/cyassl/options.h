@@ -18,17 +18,11 @@
 extern "C" {
 #endif
 
-#undef  STM32F2_HASH
-#define STM32F2_HASH
-
 #undef  NO_ECC
 #define NO_ECC
 
 #undef  NO_WRITEV
 #define NO_WRITEV
-
-#undef  NO_MD5
-#define NO_MD5
 
 #undef  NO_HMAC
 #define NO_HMAC
@@ -56,6 +50,12 @@ extern "C" {
 
 #undef  NO_DSA
 #define NO_DSA
+
+#undef  NO_ECC
+#define NO_ECC
+
+#undef  NO_RSA
+#define NO_RSA
 
 #undef  WOLFSSL_USER_IO
 #define WOLFSSL_USER_IO
@@ -116,12 +116,6 @@ extern "C" {
 
 #undef  NO_PWDBASED
 #define NO_PWDBASED
-
-#undef  USE_FAST_MATH
-#define USE_FAST_MATH
-
-#undef  NO_DES3
-#define NO_DES3
 
 
 #ifdef __cplusplus

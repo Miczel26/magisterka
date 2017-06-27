@@ -1,8 +1,102 @@
 wolfcrypt/src/src_libwolfssl_la-md5.lo: wolfcrypt/src/md5.c config.h \
- wolfssl/wolfcrypt/settings.h wolfssl/wolfcrypt/visibility.h
+ wolfssl/wolfcrypt/settings.h wolfssl/wolfcrypt/visibility.h \
+ wolfssl/wolfcrypt/md5.h wolfssl/wolfcrypt/types.h \
+ wolfssl/wolfcrypt/wc_port.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdio.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\newlib.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\config.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\ieeefp.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\features.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\cdefs.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_default_types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdarg.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\reent.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\lock.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_stdint.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\types.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\stdio.h \
+ wolfssl/wolfcrypt/memory.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdlib.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\stdlib.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\alloca.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\string.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\string.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h \
+ wolfssl/wolfcrypt/error-crypt.h wolfcrypt/src/misc.c \
+ wolfssl/wolfcrypt/misc.h
 
 config.h:
 
 wolfssl/wolfcrypt/settings.h:
 
 wolfssl/wolfcrypt/visibility.h:
+
+wolfssl/wolfcrypt/md5.h:
+
+wolfssl/wolfcrypt/types.h:
+
+wolfssl/wolfcrypt/wc_port.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdio.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\newlib.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\config.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\ieeefp.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\features.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\cdefs.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_default_types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stddef.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdarg.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\reent.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\_ansi.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\_types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\lock.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_stdint.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\types.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\stdio.h:
+
+wolfssl/wolfcrypt/memory.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdlib.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\stdlib.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\alloca.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\string.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\string.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h:
+
+wolfssl/wolfcrypt/error-crypt.h:
+
+wolfcrypt/src/misc.c:
+
+wolfssl/wolfcrypt/misc.h:

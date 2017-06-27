@@ -28,12 +28,13 @@ wolfcrypt/src/src_libwolfssl_la-dh.lo: wolfcrypt/src/dh.c config.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\string.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\string.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h \
- wolfssl/wolfcrypt/integer.h wolfssl/wolfcrypt/tfm.h \
+ wolfssl/wolfcrypt/integer.h wolfssl/wolfcrypt/random.h \
+ wolfssl/wolfcrypt/sha256.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\limits.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\syslimits.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\limits.h \
- wolfssl/wolfcrypt/random.h wolfssl/wolfcrypt/sha256.h \
- wolfssl/wolfcrypt/error-crypt.h \
+ wolfssl/wolfcrypt/mpi_class.h wolfssl/wolfcrypt/mpi_superclass.h \
+ wolfssl/wolfcrypt/mpi_class.h wolfssl/wolfcrypt/error-crypt.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\math.h
 
 config.h:
@@ -102,7 +103,9 @@ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h:
 
 wolfssl/wolfcrypt/integer.h:
 
-wolfssl/wolfcrypt/tfm.h:
+wolfssl/wolfcrypt/random.h:
+
+wolfssl/wolfcrypt/sha256.h:
 
 c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\limits.h:
 
@@ -110,9 +113,11 @@ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\s
 
 c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\limits.h:
 
-wolfssl/wolfcrypt/random.h:
+wolfssl/wolfcrypt/mpi_class.h:
 
-wolfssl/wolfcrypt/sha256.h:
+wolfssl/wolfcrypt/mpi_superclass.h:
+
+wolfssl/wolfcrypt/mpi_class.h:
 
 wolfssl/wolfcrypt/error-crypt.h:
 

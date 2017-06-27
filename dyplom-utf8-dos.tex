@@ -197,7 +197,8 @@ Badania przeprowadzono dla 30 wywołań algorytmu dla danych testowych o długo�
 \begin{table}[!h]
 
 \centering
-        \begin{tabularx}{\linewidth}{|X|X|X|X|X|X|X|X|X|X|}
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|}
         \hline 
          & \multicolumn{3}{|c|}{32 bajty} & \multicolumn{3}{|c|}{64 bajty} & \multicolumn{3}{|c|}{1024 bajty} \\
         \cline{2-10}
@@ -245,7 +246,8 @@ Użyty procesor STM32f217IGH6 posiada specjalnie dedykowane kryptoprocesory do w
 \begin{table}
 
 \centering
-        \begin{tabularx}{\linewidth}{|X|X|X|X|X|X|X|X|X|X|}
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|}
         \hline 
          & \multicolumn{3}{|c|}{32 bajty} & \multicolumn{3}{|c|}{64 bajty} & \multicolumn{3}{|c|}{1024 bajty} \\
         \cline{2-10}
@@ -292,48 +294,106 @@ Użyty procesor STM32f217IGH6 posiada specjalnie dedykowane kryptoprocesory do w
 Algorytm DES (eng. Data Encryption Standard) jest symetrycznym szyfrem blokowym zapoczątkowanym przez IBM w 1975 r. Algorytm mając klucz i wektor inicjujący zamienia 8 bajtów wejściowych w 8 bajtów wyjściowych, które mogą następnie być z powrotem odszydrowane o ile adresat zna klucz użyty do zaszyfrowania wiadomości. Z matematycznego punktu widzenia DES jest funkcją różnowartościową która każdej wartości z dziedziny funkcji $D \in \left( 0, 2^{64}-1 \right)$ przypisuje jedną wartość z jej przeciwdziedziny $Y \in \left( 0, 2^{64}-1 \right)$.\\
 Z uwagi na małą długość klucza - tylko 56 bitów algorytm ten uznawany jest za podatny na ataki typu brute force.
 \subsection{Software'owa implementacja algorytmu}
-Algorytm przetwarza dane w 8-bajtowych porcjach. Każda porcja jest podawana operacjom matematycznym takim jak permutacja bitów, operacja bitowa xor, dokonywanie podstawień na podstawie S-boxy i P-boxy (są to takie ,,czarne skrzynki'' które zamieniają liczby S-box z liczby z zakresu 0-63 na liczbę z zakresu 0-15, a P-box z 0-31 na liczbę 0-31, oraz funcje Feistela.\\Dokłądny opis algorytmu znajduje się w dodatku B
-Nulla quis enim ut erat rutrum feugiat. Suspendisse lacinia tempor
-mi. Vestibulum nec lacus sed est rutrum cursus. Cras ultrices est eget
-pede. Sed ullamcorper ultrices tellus. Nulla lectus. Nunc
-consectetuer, quam quis sagittis vulputate, dui leo molestie augue, a
-commodo tellus tortor a turpis. Nam et ipsum. Ut placerat aliquet
-enim. Suspendisse potenti. Etiam volutpat tortor in mauris. Praesent
-dapibus congue arcu.
+Pierwszym krokiem jest generowanie 16 rund kluczy na podstawie jednego klucza głównego. Następnie algorytm przetwarza dane w 8-bajtowych porcjach. Każda porcja jest podawana operacjom matematycznym takim jak permutacja bitów, operacja bitowa xor, dokonywanie podstawień na podstawie S-boxy i P-boxy (są to takie ,,czarne skrzynki'' które zamieniają liczby S-box z liczby z zakresu 0-63 na liczbę z zakresu 0-15, a P-box z 0-31 na liczbę 0-31, oraz funcje Feistela.\\Dokładny opis algorytmu znajduje się w dodatku B. Czasy szyfrowania danych z użyciem algorytmu DES przedstawia tabela na kolejnej stronie.
+\begin{table}
 
-\section{Hardware}
-Aliquam quis sem. Phasellus tincidunt fringilla metus. Sed id
-purus. Ut consectetuer urna nec sapien. Sed sed odio sed lectus
-imperdiet ultricies. Suspendisse semper congue pede. Etiam facilisis
-sapien nec dolor. Pellentesque sodales rutrum lorem. Aliquam tristique
-diam ac lacus. Vestibulum ante ipsum primis in faucibus orci luctus et
-ultrices posuere cubilia Curae; Duis sit amet pede. Suspendisse ut
-dui. Aliquam massa quam, facilisis in, vulputate non, imperdiet quis,
-diam. Nullam feugiat. Morbi non dolor et eros fringilla
-gravida. Pellentesque rhoncus, odio ac fringilla varius, ante nunc
-hendrerit massa, sed varius est est eu massa.
+\centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{2}{|c|}{Generowanie kluczy} & \multicolumn{3}{|c|}{8 bajtów} & \multicolumn{3}{|c|}{16 bajtów} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-12}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]}& {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1 &	10155 &	0.212 &	434 &	0.009 &	0.885 &	843 &	0.018 &	0.911 &	52261 &	1.089 &	0.941 \\ \hline
+2 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\ \hline
+3 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\ \hline
+4 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\ \hline
+5 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\ \hline
+6 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\ \hline
+7 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52262 &	1.089 &	0.940 \\  \hline
+8 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\  \hline
+9 &	10165 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+10 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	855 &	0.018 &	0.898 &	52260 &	1.089 &	0.941 \\  \hline
+11 &	10167 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\  \hline
+12 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	843 &	0.018 &	0.911 &	52260 &	1.089 &	0.941 \\  \hline
+13 &	10166 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+14 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+15 &	10166 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52262 &	1.089 &	0.940 \\  \hline
+16 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\  \hline
+17 &	10168 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+18 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52262 &	1.089 &	0.940 \\  \hline
+19 &	10169 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\  \hline
+20 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\  \hline
+21 &	10169 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52272 &	1.089 &	0.940 \\  \hline
+22 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+23 &	10168 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+24 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52273 &	1.089 &	0.940 \\  \hline
+25 &	10169 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\  \hline
+26 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52260 &	1.089 &	0.941 \\  \hline
+27 &	10168 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52271 &	1.089 &	0.940 \\  \hline
+28 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+29 &	10167 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52261 &	1.089 &	0.941 \\  \hline
+30 &	10155 &	0.212 &	435 &	0.009 &	0.883 &	844 &	0.018 &	0.910 &	52271 &	1.089 &	0.940 \\  \hline
+\textbf{Średnia}	 &\textbf{10160}	 &\textbf{0.212}	 &\textbf{435}	 &\textbf{0.0091} &	\textbf{0.883} &	\textbf{844} &	\textbf{0.018} &	\textbf{0.910} &	\textbf{52262} &	\textbf{1.089} &	\textbf{0.940} \\  \hline
+
+    \end{tabularx}
+    \caption{Czasy dla algorytmu DES}
+\end{table}
+
+\section{Hardware'owa implementacja algorytum}
+
+Podobnie jak w przypadku SHA-1 także DES posiada swój koprocesor kryptograficzny na pokładzie STM32f217IGH6. Dzięki zastosowaniu funkcji znajdujących się w plikach stm32f2xx\_cryp.c i stm32f2xx\_cryp\_des.c uzyskujemy interfejs pozwalający na korzystanie z koprocesora. Biblioteka WolfSSL oferuje wsparcie dla koprocesora (przez ustawienie flagi STM32\_CRYPT przy kompilacji) co pozwala na znaczące przyspieszenie wykonywanych obliczeń. Wyniki pomiarów czasu zaprezentowano w tablei na kolejnej stronie.
+\begin{table}
+
+\centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{2}{|c|}{Generowanie kluczy} & \multicolumn{3}{|c|}{8 bajtów} & \multicolumn{3}{|c|}{16 bajtów} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-12}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]}& {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1 &	34 &	0.001 &	250 &	0.005 &	1.536 &	298 &	0.006 &	2.577 &	6220 &	0.130 &	7.902 \\ \hline
+2 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6230 &	0.130 &	7.890 \\ \hline
+3 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+4 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+5 &	34	& 0.001	& 251	& 0.005 &	1.530 &	309 &	0.006 &	2.485 &	6230 &	0.130 &	7.890 \\ \hline
+6 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+7 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+8 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+9 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6229 &	0.130 &	7.891 \\ \hline
+10 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+11 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+12 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6230 &	0.130 &	7.890 \\ \hline
+13 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+14 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+15 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6230 &	0.130 &	7.890 \\ \hline
+16 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+17 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+18 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6230 &	0.130 &	7.890 \\ \hline
+19 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+20 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+21 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+22 &	34	& 0.001	& 251	& 0.005 &	1.530 &	309 &	0.006 &	2.485 &	6220 &	0.130 &	7.902 \\ \hline
+23 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+24 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+25 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6230 &	0.130 &	7.890 \\ \hline
+26 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+27 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+28 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6230 &	0.130 &	7.890 \\ \hline
+29 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+30 &	34	& 0.001	& 251	& 0.005 &	1.530 &	298 &	0.006 &	2.577 &	6219 &	0.130 &	7.904 \\ \hline
+\textbf{Średnia} &	\textbf{34}	& \textbf{0.001}	& \textbf{251}	& \textbf{0.005} &	\textbf{1.530} &	\textbf{299} &	\textbf{0.006} &	\textbf{2.571} &	\textbf{6222} &	\textbf{0.130} &	\textbf{7.900} \\ \hline
 
 
-\begin{itemize}
-\item Mauris nonummy lorem at orci.
-\item Donec accumsan aliquam libero.
-\item Donec fringilla ultricies diam.
-\item Nulla venenatis est non ligula.
-\item Morbi in mi convallis dolor accumsan egestas.
-\item Sed euismod nibh in nulla.
-\item Sed rhoncus lorem at lectus.
-\item Pellentesque fermentum rutrum dui.
-\end{itemize}
 
-Proin euismod. Curabitur adipiscing ipsum ac augue. Maecenas hendrerit
-tortor non velit suscipit laoreet. Aenean tempus. Nunc
-convallis. Aenean sed erat. Etiam massa nulla, interdum pretium,
-faucibus nec, sollicitudin vitae, lorem. Quisque vulputate cursus
-pede. Phasellus enim ipsum, lacinia vel, sodales ac, faucibus et,
-tortor. Aliquam hendrerit. Aliquam erat volutpat. Quisque dui lorem,
-placerat eu, commodo et, condimentum sed, nibh. Nulla eu orci in nibh
-pretium tincidunt. Pellentesque mi massa, fringilla eu, vehicula
-consectetuer, sodales a, nisi.
+    \end{tabularx}
+    \caption{Czasy dla algorytmu DES ze wsparciem sprzętowym}
+\end{table}
+
+
+
 
 
 \chapter{DES}
@@ -399,30 +459,36 @@ for (każda porcja)\\
 \hspace*{20mm}h4 := h4 + e\\
 Wytwórz ostateczną wartość skrótu (zakodowaną big-endian):\\
 \hspace*{10mm}skrót = h0 dopisz h1 dopisz h2 dopisz h3 dopisz h4
-\chapter{SHA-256}
-Donec cursus nulla vitae pede. Etiam quam pede, aliquet ut,
-pellentesque sed, sagittis non, est. Quisque egestas malesuada
-risus. Maecenas ultricies libero a quam. Nullam feugiat arcu. Class
-aptent taciti sociosqu ad litora torquent per conubia nostra, per
-inceptos hymenaeos. In interdum, risus ut gravida sollicitudin, leo
-sapien commodo dui, non consectetuer nisl nunc ac massa. Mauris a orci
-in eros venenatis euismod. Curabitur orci. Quisque pharetra, dui sed
-dignissim hendrerit, nibh ante malesuada eros, sed tincidunt magna
-lorem a tellus. Aliquam erat volutpat. Aenean pulvinar, metus et
-mattis dictum, massa lacus semper purus, quis vehicula augue mi et
-leo. Ut eu ipsum. Sed dictum dapibus nisi. Cras mattis. Nulla sed
-augue ac sem tempus condimentum.
+\chapter{DES}
+Pseudokod algorytmu wygląda następująco:\vspace*{1 cm}\\
+1. Tworzenie szesnastu kluczy rund:\\
+Z klucza 64-bitowego za pomocą tablicy PC-1 stwórz klucz 56-bitowy\\
+Podziel klucz na dwie 28-bitowe części: $C_0$ i $D_0$\\
+Stwórz $C_i$ i $D_i$ dla i = 1 do 15. Każda część $C_i$ i $D_i$ powstają odpowiednio z części $C_{i-1}$ i $D_{i-1}$ przesuniętej w lewo o 1 lub 2 bity (wartość podana w standardzie)\\
+Z pary $C_iD_i$ stwórz i-ty klucz rundy $K_i$. Klucz uzyskuje się przez permutację pary $C_iD_i$ zgodnie z tablicą PC-2. Każdy klucz rundy ma 48 bitów.\vspace{1 cm}\\
+2. Po wygenerowaniu kluczy można zacząć kodować dane w porcjach po 8 bajtów każda.\\
+Przepermutuj bity wiadomości zgodnie z tabelą IP.\\
+Podziel nową wiadomość an dwie 32-bitowe części: $L_0$ i $R_0$.\\
+Oblicz części $L_i$ i $R_i$ dla 1 <= i <= 16 wg. wzoru:\\\centerline{$L_n$ = $R_{n-1}$, $R_n$ = $L_{n-1} \oplus$ f($R_{n-1}$, $K_n$)}\\	
+Po otrzymaniu wszystkich L i R łączymy w jedną całość $R_{16}L_{16}$, w tej kolejności, i dokonujemy ostatecznej permutacji bitów zgodnie z tabelą $IP^{-1}$.\\
+Pozostaje jeszcze do opisania w jaki sposób oblicza się wartość funkcji Feistela:  f($R_{n-1}$, $K_n$).\\
+Oblicz wartość E($R_{n-1}$) dokonując przestawień bitów w $R_{n-1}$ zgodnie z tabelą E. To przestawienie powoduje rozszerzenie z 32 bitów w  $R_{n-1}$ do 48 bitów w E($R_{n-1}$).\\
+Oblicz wartość E($R_{n-1}$) $\oplus$ $K_n$.\\
+Podziel otrzymaną wartość na osiem 6-bitowych bloków od $B_1$ do $B_8$.\\
+Następnie korzystając z tabel zwanych S-Boxami dokonujemy zamiany wartości $B_i$ na $S_i$($S_i$). Każda wartość w S-Boxach ma tylko 4 bity dlatego w rezultacie otrzymane wyrażenie $S_1(B_1)S_2(B_2)S_3(B_3)S_4(B_4)S_5(B_5)S_6(B_6)S_7(B_7)S_8(B_8)$ ma tylko 32 bity.\\
+Ostatnim krokiem jest dokonanie permutacji uzyskanych bitów za pomocą tabeli P.\\
 
 
 \addcontentsline{toc}{chapter}{Bibliografia} %utworzenie w
                                              %spisietreÄšÂci pozycji
                                              %Bibliografia
-
+\listoffigures
+\listoftables
 \bibliography{bibliografia} % wstawia bibliografiĂÂ korzystajĂÂc z pliku
                             % bibliografia.bib - dotyczy BibTeXa,
                             % jeÄšĹşeli nie korzystamy z BibTeXa naleÄšĹşy
                             % uÄšĹşyĂÂ otoczenia thebibliography
-
+http://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm
 %opcjonalnie moÄšĹşe siĂÂ tu pojawiĂÂ spis rysunkÄĹw i tabel
 % \listoffigures
 % \listoftables

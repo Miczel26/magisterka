@@ -18,7 +18,7 @@
 #include "../inc/sha-moje/sha256-moje.h"
 /* AES */
 #include "../inc/aes/test_aes.h"
-
+#include "../inc/des/test_des.h"
 //#include "wolfssl/wolfcrpyt/sha256.h"
 
 /* Semihosting */
@@ -34,13 +34,14 @@ int main()
 	uint32_t results[NUMBER_OF_MEASUREMENTS];
     /* Semihosting */
     initialise_monitor_handles();
-    Aes aes;
+    Des des;
     TIM_HandleTypeDef timerHandle;
     TimerInit(&timerHandle);
 
 	printf("WOLF\n");
-	test_sha(&timerHandle, 1, 30);
+	//test_sha(&timerHandle, 1, 30);
 	//test_aes(&timerHandle, &aes, 30);
+	test_des(&timerHandle, &des, 30);
     /*
      * Examples of execution
      */

@@ -28,18 +28,19 @@ wolfcrypt/src/src_libwolfssl_la-asn.lo: wolfcrypt/src/asn.c config.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\string.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\string.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h \
- wolfssl/wolfcrypt/integer.h wolfssl/wolfcrypt/tfm.h \
+ wolfssl/wolfcrypt/integer.h wolfssl/wolfcrypt/random.h \
+ wolfssl/wolfcrypt/sha256.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\limits.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\syslimits.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\limits.h \
- wolfssl/wolfcrypt/random.h wolfssl/wolfcrypt/sha256.h \
- wolfssl/wolfcrypt/rsa.h wolfssl/wolfcrypt/hash.h wolfssl/wolfcrypt/sha.h \
- wolfssl/wolfcrypt/dh.h wolfssl/wolfcrypt/asn_public.h \
- wolfssl/wolfcrypt/coding.h wolfssl/wolfcrypt/md2.h \
- wolfssl/wolfcrypt/hmac.h wolfssl/wolfcrypt/error-crypt.h \
- wolfssl/wolfcrypt/pwdbased.h wolfssl/wolfcrypt/des3.h \
- wolfssl/wolfcrypt/logging.h wolfcrypt/src/misc.c \
- wolfssl/wolfcrypt/misc.h \
+ wolfssl/wolfcrypt/mpi_class.h wolfssl/wolfcrypt/mpi_superclass.h \
+ wolfssl/wolfcrypt/mpi_class.h wolfssl/wolfcrypt/dh.h \
+ wolfssl/wolfcrypt/sha.h wolfssl/wolfcrypt/md5.h \
+ wolfssl/wolfcrypt/asn_public.h wolfssl/wolfcrypt/coding.h \
+ wolfssl/wolfcrypt/md2.h wolfssl/wolfcrypt/hmac.h \
+ wolfssl/wolfcrypt/error-crypt.h wolfssl/wolfcrypt/pwdbased.h \
+ wolfssl/wolfcrypt/des3.h wolfssl/wolfcrypt/logging.h \
+ wolfssl/wolfcrypt/hash.h wolfcrypt/src/misc.c wolfssl/wolfcrypt/misc.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\time.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\machine\time.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\timespec.h \
@@ -111,7 +112,9 @@ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h:
 
 wolfssl/wolfcrypt/integer.h:
 
-wolfssl/wolfcrypt/tfm.h:
+wolfssl/wolfcrypt/random.h:
+
+wolfssl/wolfcrypt/sha256.h:
 
 c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\limits.h:
 
@@ -119,17 +122,17 @@ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include-fixed\s
 
 c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\limits.h:
 
-wolfssl/wolfcrypt/random.h:
+wolfssl/wolfcrypt/mpi_class.h:
 
-wolfssl/wolfcrypt/sha256.h:
+wolfssl/wolfcrypt/mpi_superclass.h:
 
-wolfssl/wolfcrypt/rsa.h:
+wolfssl/wolfcrypt/mpi_class.h:
 
-wolfssl/wolfcrypt/hash.h:
+wolfssl/wolfcrypt/dh.h:
 
 wolfssl/wolfcrypt/sha.h:
 
-wolfssl/wolfcrypt/dh.h:
+wolfssl/wolfcrypt/md5.h:
 
 wolfssl/wolfcrypt/asn_public.h:
 
@@ -146,6 +149,8 @@ wolfssl/wolfcrypt/pwdbased.h:
 wolfssl/wolfcrypt/des3.h:
 
 wolfssl/wolfcrypt/logging.h:
+
+wolfssl/wolfcrypt/hash.h:
 
 wolfcrypt/src/misc.c:
 
