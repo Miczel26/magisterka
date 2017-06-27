@@ -7,20 +7,20 @@
 #include "../../inc/aes/test_aes.h"
 #include "../../inc/timer/timer.h"
 
+#include "../../test_vectors/aes/AesData.h"
 
 
 /*
  * Aggregation of test vectors data
  */
-void test_aes_init(TIM_HandleTypeDef *timerHandle, Aes *aes, const byte *key, const byte *iv, uint8_t nrOfMeasurments)
+void test_aes(TIM_HandleTypeDef *timerHandle, Aes *aes, uint8_t nrOfMeasurments)
 {
-    byte msg[16] = {0};
-    byte cipher[16];
+    byte cipher[256];
         for (int i = 0; i < nrOfMeasurments; ++i)
         {
             TimerStart(timerHandle);
-            wc_AesSetKey(aes, key, 16, iv, AES_ENCRYPTION);
-            wc_AesCbcEncrypt(aes, cipher, msg, 16);
+            wc_AesSetKey(aes, AesKey, 16, AesIV, AES_ENCRYPTION);
+            wc_AesCbcEncrypt(aes, AesOneBlock, AesOneBlock, sizeof(AesOneBlock));
             printf("%d\n", TimerStop(timerHandle));
         }
 }

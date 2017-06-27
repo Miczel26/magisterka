@@ -2,7 +2,7 @@
  * timer.h
  *
  *  Created on: 31.10.2016
- *      Author: lukasz.zarnecki
+ *      Author: michal.stroka
  */
 
 #ifndef TIMER_TIMER_H_

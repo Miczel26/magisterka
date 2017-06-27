@@ -34,12 +34,12 @@ int main()
 	uint32_t results[NUMBER_OF_MEASUREMENTS];
     /* Semihosting */
     initialise_monitor_handles();
-
+    Aes aes;
     TIM_HandleTypeDef timerHandle;
     TimerInit(&timerHandle);
 
 	printf("WOLF\n");
-	test_sha(&timerHandle, 1, 30);
+	test_aes(&timerHandle, &aes, 30);
     /*
      * Examples of execution
      */

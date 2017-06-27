@@ -64,24 +64,12 @@
 %poniżej znajduje się przykładowa treść dalszej części dokumentu,
 %zainteresowanych zachęcam do rozszyfrowania frazy "Lorem ipsum" :)
 \chapter{Wstęp}
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam
-neque. Morbi interdum. Sed nibh nunc, imperdiet non, malesuada
-blandit, tempor vel, odio. Aenean in leo ut nulla tempor
-blandit. Praesent bibendum. Praesent varius imperdiet dolor. Etiam
-urna eros, lacinia at, scelerisque quis, fringilla vel, lectus. Ut sit
-amet dui ac pede lobortis varius. Integer mattis, neque non ornare
-consequat, libero tellus luctus elit, a tempor pede massa nec
-orci. Aenean ante lacus, feugiat in, lacinia sit amet, lobortis at,
-leo. Class aptent taciti sociosqu ad litora torquent per conubia
-nostra, per inceptos hymenaeos. Morbi ac ipsum eget est rutrum
-porttitor. Duis sapien. Sed vel quam. Nullam volutpat facilisis magna.
+Już w czasach starożytnych ludzie zaczeli dostrzegać potrzebę komunikacji między dwiema osobami bez możliwości przechwycenia i odczytania jej przez osoby trzecie. Najstarszym znanym szyfrem jest szyfr Cezara, którym Juliusz Gajusz Cezar w pierwszym wieku p.n.e. szyfrował korespondencję. Był to tak zwany szyfr przesuwający z przesunięciem 3. Każda litera ,,a'' była zamieniana na ,,d'', ,,b'' na ,,e'' itd. Oczywiście taki szyfr był bardzo łatwy do złamania, jednak w czasach gdy umiejętność czytania była rzadkością, zwłaszcza wśród przeciwników Rzymu, zupełnie wystarczał. Później przez całą historię trwał ciągły rozwój kryptologii - nauki o przekazywaniu informacji w sposób zabezpieczony przed niepowołanym dostęp. Ponieważ ludzie zdawali sobie sprawę że np. w czasie wojny zdobycie informacji o ruchach przeciwnika może przesądzić o losie bitwy, to szeregi matematyków wynajdowały nowe metody szyfrowania i jednocześnie usiłowały złamać te już istniejące. Prawdopodobnie najbardziej znaną maszyną szyfrującą była Enigma - niemiecka maszyna szyfrująca, która zostałą złamana przez 3 polskich matematyków: Mariana Rejewskiego, Henryk Zygalski i Jerzego Różyckiego. Równolegle do zatajania treści wiadomości rozwijały się techniki ukrywania samego faktu wysyłania wiadomości. Na początku XX. wieku Niemcy dysponowali techniką, która pozwalała na sfotografowanie kartki rozmiaru A4 i pomniejszenie zdjęcia do rozmiaru pojedynczej kropki w tekście, a następnie mogła być za pomocą mikroskopu z powrotem powiększona. Tak przekazana książka z kilkoma tajnymi kropkami nie budziła podejrzeń nawet gdy zostałą przechwycona przez przeciwników.\\
+W dzisiejszym świecie, gdy wraz z rozwojem i rozpowszechnieniem się komputerów tysiące informacji są przekazywane tajność korespondencji wydaje się być kluczowa. Obecnie problem dotyczy nie tylko najbardziej wpływowych osób na świecie i wymiany informacji pomiędzy nimi, ale każdego z nas. Niezależnie czy logujemy się do banku, wysyłamy maile/SMSy, przesyłamy pliki po sieci czy wpisujemy gdzieś nasze dane osobowe każdy z nas ma nadzieję, że te wrażliwe dane będą dostępne tylko dla adresata końcowego i nie zostaną zrozumiane przez osoby postronne. Dodatkowo wraz z rozwojem elektroniki coraz częściej mamy doczynienia z komunikacją między dwoma urządzeniami np. komunikacja między kartą płatniczą, a terminalem, czy wymiana informacji między podzespołami w autonomicznych pojazdach. Tutaj również ważne jest, aby komunikacja była tajna i nie była podmieniona, gdyż może spowodować to zmianę kwoty i/lub rachunku obciążanego w przypadku kart, i katastrofę w ruchu drogowym/lotniczym w przypadku pojazdów. Obecnie istnieje wiele standardowych szyfrów kryptograficznych, które według obecnej wiedzy są nie do złamania w rozsądnym czasie. Wydajność niektórych z nich zostanie zbadana w tej pracy.
 
 \chapter{Cel pracy}
 
-Celem pracy jest zbadanie możliwości biblioteki kryptograficznej wolfSSL na platformie STM32F2.
-Porównane będzie gotowa implementacja z autorską próbą optymalizacji wybranych algorytmów szeregowych.
-
-
+Celem pracy magisterskiej jest zbadanie wydajności algorytmów symetrycznych w bibliotece kryptograficznej WolfSSL na wybranej platformie embedded. Praca zakłada kompilację biblioteki na wybraną platformę, stworzenie środowiska testowego pozwalającego na  przeprowadzenie pomiarów w sposób łatwy i automatyczny, porównanie czasów wykonywania algorytmów tylko w procesorze oraz z użyciem wbudowanych procesorów kryptograficznych, a także stworzenie własnej implementacji niektórych algorytmów i porównania ich prędkości.
 \chapter{Konfiguracja środowiska}
 
 Platformą testową, na której badana jest wydajność biblioteki WolfSSL to płytka testowa STM3221G-EVAL z mikroprocesorem STM32F217IG. Procesor ten posiada specjalnie dedykowane hardware'owe jednostki kryptograficzne, które pozwalają na znaczne przyspieszenie niektórych algorytmów dzięki sprzętowemu wykonywaniu części obliczeń.  Algorytmy symetryczne, dla których wsparcie sprzętowe posiada wyżej wymieniony procesor, to AES, DES, MD5 i SHA-1. Wszystkie one mogą być wykorzystywane przez bibliotekę WolfSSL. W pracy zostaną porównane wydajności algorytmów z i bez użycia kryptojednostek oraz porównanie czasów z własną implementacją algorytmów.\
@@ -139,7 +127,7 @@ CC=/c/GNU\_Tools\_ARM\_Embedded/4.9\_2015q3/bin/arm-none-eabi-gcc\\
 AR=/c/GNU\_Tools\_ARM\_Embedded/4.9\_2015q3/bin/arm-none-eabi-ar\\
 RANLIB=/c/GNU\_Tools\_ARM\_Embedded/4.9\_2015q3/arm-none-eabi/bin/ranlib\\
 LDFLAGS=" -lc -specs=nosys.specs"\\
-CFLAGS="-mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO\_WRITEV -DWOLFSSL\_USER\_IO -DWOLFCRYPT\_ONLY\\-I/Drivers/CMSIS/Include\\-I/Drivers/CMSIS/Device/ST/STM32F2xx/Include\\-I/Drivers/STM32F2xx\_StdPeriph\_Lib\_V1.1.0/Libraries/STM32F2xx\_StdPeriph\_Driver/src\\-I/Drivers/STM32F2xx\_HAL\_Driver/Inc \\-I/Drivers/STM32F2xx\_HAL\_Driver/Src\\-I/Drivers/STM32F2xx\_StdPeriph\_Lib\_V1.1.0/Libraries/STM32F2xx\_StdPeriph\_Driver/inc"\\
+CFLAGS="-mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO\_WRITEV \\-DWOLFSSL\_USER\_IO -DWOLFCRYPT\_ONLY\\-I/Drivers/CMSIS/Include\\-I/Drivers/CMSIS/Device/ST/STM32F2xx/Include\\-I/Drivers/STM32F2xx\_StdPeriph\_Lib\_V1.1.0/Libraries/STM32F2xx\_StdPeriph\_Driver/src\\-I/Drivers/STM32F2xx\_HAL\_Driver/Inc \\-I/Drivers/STM32F2xx\_HAL\_Driver/Src\\-I/Drivers/STM32F2xx\_StdPeriph\_Lib\_V1.1.0/Libraries/STM32F2xx\_StdPeriph\_Driver/inc"\\
 ./configure --host=arm-none-eabi CC=\$CC AR=\$AR RANLIB=\$RANLIB LDFLAGS="\$LDFLAGS" CFLAGS="\$CFLAGS"	
 }
 \\Zmienna CC przechowuje ścieżkę do kompilatora arm-none-eabi-gcc

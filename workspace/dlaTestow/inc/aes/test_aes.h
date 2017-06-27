@@ -13,6 +13,6 @@
 #include "wolfssl/options.h"
 #include "wolfssl/wolfcrypt/aes.h"
 
-void test_aes_init(TIM_HandleTypeDef *timerHandle, Aes *aes, const byte *key, const byte *iv, uint8_t nrOfMeasurments);
+void test_aes(TIM_HandleTypeDef *timerHandle, Aes *aes, uint8_t nrOfMeasurments);
 
 #endif /* TEST_SHA_H_ */

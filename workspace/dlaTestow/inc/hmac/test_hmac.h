@@ -2,7 +2,7 @@
  * test_hmac.h
  *
  *  Created on: 20.12.2016
- *      Author: lukasz.zarnecki
+ *      Author: michal.stroka
  */
 
 #ifndef HMAC_TEST_HMAC_H_
