@@ -54,7 +54,7 @@
 \field{Automatyka i Robotyka (AIR)}
 
 \specialisation{Komputerowe sieci sterowania (ARK)}
-\graphicspath{ {./img/} }
+%\graphicspath{ {./img/} }
 \sloppy
 %tutaj zaczyna się właśniwa treść	 dokumentu
 \begin{document}
@@ -290,7 +290,7 @@ Użyty procesor STM32f217IGH6 posiada specjalnie dedykowane kryptoprocesory do w
     \caption{Czasy dla algorytmu SHA-1 ze wsparciem sprzętowym}
 \end{table}\pagebreak 
 
-\subsection{Algorytm DES}
+\section{Algorytm DES}
 Algorytm DES (eng. Data Encryption Standard) jest symetrycznym szyfrem blokowym zapoczątkowanym przez IBM w 1975 r. Algorytm mając klucz i wektor inicjujący zamienia 8 bajtów wejściowych w 8 bajtów wyjściowych, które mogą następnie być z powrotem odszydrowane o ile adresat zna klucz użyty do zaszyfrowania wiadomości. Z matematycznego punktu widzenia DES jest funkcją różnowartościową która każdej wartości z dziedziny funkcji $D \in \left( 0, 2^{64}-1 \right)$ przypisuje jedną wartość z jej przeciwdziedziny $Y \in \left( 0, 2^{64}-1 \right)$.\\
 Z uwagi na małą długość klucza - tylko 56 bitów algorytm ten uznawany jest za podatny na ataki typu brute force.
 \subsection{Software'owa implementacja algorytmu}
@@ -341,7 +341,7 @@ Pierwszym krokiem jest generowanie 16 rund kluczy na podstawie jednego klucza g�
     \caption{Czasy dla algorytmu DES}
 \end{table}
 
-\section{Hardware'owa implementacja algorytum}
+\subsection{Hardware'owa implementacja algorytum}
 
 Podobnie jak w przypadku SHA-1 także DES posiada swój koprocesor kryptograficzny na pokładzie STM32f217IGH6. Dzięki zastosowaniu funkcji znajdujących się w plikach stm32f2xx\_cryp.c i stm32f2xx\_cryp\_des.c uzyskujemy interfejs pozwalający na korzystanie z koprocesora. Biblioteka WolfSSL oferuje wsparcie dla koprocesora (przez ustawienie flagi STM32\_CRYPT przy kompilacji) co pozwala na znaczące przyspieszenie wykonywanych obliczeń. Wyniki pomiarów czasu zaprezentowano w tablei na kolejnej stronie.
 \begin{table}
@@ -390,22 +390,14 @@ Podobnie jak w przypadku SHA-1 także DES posiada swój koprocesor kryptograficz
 
     \end{tabularx}
     \caption{Czasy dla algorytmu DES ze wsparciem sprzętowym}
-\end{table}
+\end{table} \pagebreak
 
+\section{AES}
+AES (eng. Advanced Encryption Standard) jest symetrycznym szyfrem blokowym, który przetwarza dane w paczkach po 16 bajtów każda. Podobnie jak DES też składa się z części obliczającej klucze rundy i z części kodującej wiadomość. 
 
+\chapter{Problemy przy realizacji zadania}
 
-
-
-\chapter{DES}
-Nulla a nisl at nisl dignissim facilisis. In sit amet mi. Nunc
-ullamcorper, ligula vel aliquam pretium, nulla mauris euismod ipsum,
-sit amet tempus massa nulla non elit. Donec congue. Nulla
-purus. Aenean dui orci, ornare quis, interdum sed, molestie ac,
-tellus. Lorem ipsum dolor sit amet, consectetuer adipiscing
-elit. Quisque mollis diam nec elit. Maecenas nec enim. Maecenas
-facilisis urna quis arcu. Fusce posuere.
-
-
+\chapter{Podsumowanie}
 \appendix
 \chapter{SHA-1}
 Pseudokod algorytmu hashującego wygląda następująco:\\
@@ -482,13 +474,15 @@ Ostatnim krokiem jest dokonanie permutacji uzyskanych bitów za pomocą tabeli P
 \addcontentsline{toc}{chapter}{Bibliografia} %utworzenie w
                                              %spisietreÄšÂci pozycji
                                              %Bibliografia
-\listoffigures
-\listoftables
+
 \bibliography{bibliografia} % wstawia bibliografiĂÂ korzystajĂÂc z pliku
                             % bibliografia.bib - dotyczy BibTeXa,
                             % jeÄšĹşeli nie korzystamy z BibTeXa naleÄšĹşy
                             % uÄšĹşyĂÂ otoczenia thebibliography
 http://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm
+\listoffigures
+\listoftables
+
 %opcjonalnie moÄšĹşe siĂÂ tu pojawiĂÂ spis rysunkÄĹw i tabel
 % \listoffigures
 % \listoftables
