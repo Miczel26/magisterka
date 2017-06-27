@@ -13,9 +13,11 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{psfrag}
-
+\let\lll\undefined
 %pakiety dodające dużo dodatkowych poleceń matematycznych
+\usepackage{amssymb}
 \usepackage{amsmath}
+
 \usepackage{amsfonts}
 
 %pakiety wspomagajĂÂce i poprawiajĂÂce skÄšÂadanie tabel
@@ -53,6 +55,7 @@
 
 \specialisation{Komputerowe sieci sterowania (ARK)}
 \graphicspath{ {./img/} }
+\sloppy
 %tutaj zaczyna się właśniwa treść	 dokumentu
 \begin{document}
 \bibliographystyle{plabbrv} %tylko gdy uÄšĹşywamy BibTeXa, ustawia polski
@@ -178,22 +181,23 @@ uint32\_t TimerStop(TIM\_HandleTypeDef *timerHandle)\\
 \hspace*{10mm}return timerHandle->Instance->CNT;\\
 \}
 }
+\chapter{Pomiary czasów poszczególnych algorytmów z biblioteki WolfSSL}
 
-\chapter{Algorytm SHA-1}
+Poszczeólne algorytmy były wykonywane dla reprezentacyjnych danych testowych. Taktowanie zegara wynosiło 96 MHz. Przezntowane wyniki zawierają dane każdego z 30 testów jak i czasy średnich wykonań algorytmów.
+\section{Algorytm SHA-1}
 
-SHA-1 to powstały w 1993 roku algorytm hashujący. Jako dane wejściowe pobiera wiadomość o maksymalnej długości $2^{64}$ bitów i zamienia je w 160-bitowy skrót. Tak jak wszystkie algorytmy haszujące, głównym zastosowaniem algorytmu SHA-1 jest weryfikacja inegralności plików lub wiadomości. Wraz z każdą wiadomością może być wysyłany jej skrót SHA-1. W momencie gdy adresat odbiera wiadomość oblicza jej skrót SHA-1. Jeżeli skróty są od siebie różne, to mamy pewność że któryś z bitów został źle odebrany i wiadomość nie może dalej być przetwarzana. 
+SHA-1 to powstały w 1993 roku algorytm hashujący. Jako dane wejściowe pobiera wiadomość o maksymalnej długości $2^{64}$ bitów i zamienia je w 160-bitowy skrót. Tak jak wszystkie algorytmy haszujące, głównym zastosowaniem algorytmu SHA-1 jest weryfikacja inegralności plików lub wiadomości. Wraz z każdą wiadomością może być wysyłany jej skrót SHA-1. W momencie gdy adresat odbiera wiadomość oblicza jej skrót SHA-1. Jeżeli skróty są od siebie różne, to mamy pewność że któryś z bitów został źle odebrany i wiadomość nie może dalej być przetwarzana. Niestety w 2005 roku zostały opublikowane pierwsze ataki pozwalające złamać skrót w czasie krótszym niż atakiem typu BruteForce (sprawdzanie każdej możlwiości po kolei) i używanie tego algorytmu hashującego w nowych systemach nie jest zalecane. 
 
-\section{Software'owa implementacja algorytmu}
+\subsection{Software'owa implementacja algorytmu}
 
-Algorytm SHA-1 składa się z trzech części: inicjalizacja danych, przetwarzanie wszystkich danych poza ostatnią częsią, przetworzenie ostatniej części. Dane przetwarzane są partiami po 32 bajty w każdym cyklu. W każdym cyklu na bajtach dokonywane są operacje logiczne: and i xor, a także operacja przesuwania bitowego. Dokładny opis algorytmu znajduje się w Dodatku A.
+Algorytm SHA-1 składa się z trzech części: inicjalizacja danych, przetwarzanie wszystkich danych poza ostatnią częsią, przetworzenie ostatniej części. Dane przetwarzane są partiami po 32 bajty w każdym cyklu. W każdym cyklu na bajtach dokonywane są operacje logiczne: and i xor, a także operacja przesuwania bitowego. Dokładny opis algorytmu znajduje się w Dodatku A.\\
+Badania przeprowadzono dla 30 wywołań algorytmu dla danych testowych o długościach: 32 bajtów, 64 bajtów i 1 kilobajta. Wyniki są dostępne na kolejnej stronie:
 
-Badania przeprowadzono dla 30 wywołań algorytmu dla danych testowych o długościach: 32 bajtów, 64 bajtów i 1 kilobajta. Wyniki są następujące:
 
-
-\begin{table}
+\begin{table}[!h]
 
 \centering
-        \begin{tabularx}{\linewidth + 1}{|X|X|X|X|X|X|X|X|X|X|}
+        \begin{tabularx}{\linewidth}{|X|X|X|X|X|X|X|X|X|X|}
         \hline 
          & \multicolumn{3}{|c|}{32 bajty} & \multicolumn{3}{|c|}{64 bajty} & \multicolumn{3}{|c|}{1024 bajty} \\
         \cline{2-10}
@@ -233,23 +237,62 @@ Badania przeprowadzono dla 30 wywołań algorytmu dla danych testowych o długo�
 \textbf{Średnia}	& \textbf{690} &	\textbf{0.014} &	\textbf{2.225} &	\textbf{1261} &	\textbf{0.026} &	\textbf{2.437} &	\textbf{10010} &	\textbf{0.209} & \textbf{4.911} \\ \hline
     \end{tabularx}
     \caption{Czasy dla algorytmu SHA-1}
-
-
 \end{table}
+\subsection{Hardware'owa implementacja algorytmu}
 
-\chapter{AES}
-Quisque nibh sapien, lobortis posuere, dignissim id, ultricies ut,
-est. Cras nec nunc nec ligula placerat ullamcorper. Maecenas consequat
-consequat nisi. Etiam varius. Vestibulum ante ipsum primis in faucibus
-orci luctus et ultrices posuere cubilia Curae; Ut risus velit,
-vulputate aliquet, tristique nec, ullamcorper et, justo. In hac
-habitasse platea dictumst. Suspendisse rhoncus venenatis eros. Proin
-nec lorem nec sem auctor lobortis. Quisque ac dolor. Suspendisse
-potenti. Maecenas fermentum sem non neque. Cras nonummy commodo
-libero. Sed in erat.
+Użyty procesor STM32f217IGH6 posiada specjalnie dedykowane kryptoprocesory do wykonania algorytmu SHA-1. Można się do niego dostać dzięki bibliotece STM32F2xx\_StdPeriph\_Driver, a konkretnie interfejsowi hardware'owemu dostępnemu w pliku stm32f2xx\_hash.c. Posiada on funkcje, które obsługują krpytoprocesor i biblioteka WolfSSL z nich korzysta. Czasy uzyskane przy pomocy wsparcia hardware'owego dla tych samych danych testowych są na kolejenj stronie.
+
+\begin{table}
+
+\centering
+        \begin{tabularx}{\linewidth}{|X|X|X|X|X|X|X|X|X|X|}
+        \hline 
+         & \multicolumn{3}{|c|}{32 bajty} & \multicolumn{3}{|c|}{64 bajty} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-10}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1	& 254 &	0.005 &	6.047 &	318 &	0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+2	& 253 &	0.005 &	6.071 &	318 &	0.007 &	9.660 &	2292 &	0.048 &	21.445 \\ \hline
+3	& 254 &	0.005 &	6.047 &	318 &	0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+4	& 254 &	0.005 &	6.047 &	317 &	0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+5	& 254 &	0.005 &	6.047 &	318 &	0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+6	& 253 &	0.005 &	6.071 &	318 &	0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+7	& 253 &	0.005 &	6.071 &	317 &	0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+8	& 253 &	0.005 &	6.071 &	317 &	0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+9	& 254 &	0.005 &	6.047 &	317 &	0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+10 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+11 &	253	& 0.005	& 6.071	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+12 &	253	& 0.005	& 6.071	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+13 &	253	& 0.005	& 6.071	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+14 &	253	& 0.005	& 6.071	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+15 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+16 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+17 &	254	& 0.005	& 6.047	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+18 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+19 &	253	& 0.005	& 6.071	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+20 &	253	& 0.005	& 6.071	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+21 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2292 &	0.048 &	21.445 \\ \hline
+22 &	254	& 0.005	& 6.047	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+23 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+24 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+25 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+26 &	253	& 0.005	& 6.071	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+27 &	254	& 0.005	& 6.047	& 317	& 0.007 &	9.691 &	2282 &	0.048 &	21.539 \\ \hline
+28 &	254	& 0.005	& 6.047	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+29 &	254	& 0.005	& 6.047	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+30 &	254	& 0.005	& 6.047	& 318	& 0.007 &	9.660 &	2282 &	0.048 &	21.539 \\ \hline
+\textbf{Średnia} &	\textbf{254} &	0.\textbf{005} &	\textbf{6.056} &	\textbf{317}	& \textbf{0.007}	& \textbf{9.678}	& \textbf{2283}	& \textbf{0.048}	& \textbf{21.533} \\ \hline
 
 
-\section{Software}
+    \end{tabularx}
+    \caption{Czasy dla algorytmu SHA-1 ze wsparciem sprzętowym}
+\end{table}\pagebreak 
+
+\subsection{Algorytm DES}
+Algorytm DES (eng. Data Encryption Standard) jest symetrycznym szyfrem blokowym zapoczątkowanym przez IBM w 1975 r. Algorytm mając klucz i wektor inicjujący zamienia 8 bajtów wejściowych w 8 bajtów wyjściowych, które mogą następnie być z powrotem odszydrowane o ile adresat zna klucz użyty do zaszyfrowania wiadomości. Z matematycznego punktu widzenia DES jest funkcją różnowartościową która każdej wartości z dziedziny funkcji $D \in \left( 0, 2^{64}-1 \right)$ przypisuje jedną wartość z jej przeciwdziedziny $Y \in \left( 0, 2^{64}-1 \right)$.\\
+Z uwagi na małą długość klucza - tylko 56 bitów algorytm ten uznawany jest za podatny na ataki typu brute force.
+\subsection{Software'owa implementacja algorytmu}
+Algorytm przetwarza dane w 8-bajtowych porcjach. Każda porcja jest podawana operacjom matematycznym takim jak permutacja bitów, operacja bitowa xor, dokonywanie podstawień na podstawie S-boxy i P-boxy (są to takie ,,czarne skrzynki'' które zamieniają liczby S-box z liczby z zakresu 0-63 na liczbę z zakresu 0-15, a P-box z 0-31 na liczbę 0-31, oraz funcje Feistela.\\Dokłądny opis algorytmu znajduje się w dodatku B
 Nulla quis enim ut erat rutrum feugiat. Suspendisse lacinia tempor
 mi. Vestibulum nec lacus sed est rutrum cursus. Cras ultrices est eget
 pede. Sed ullamcorper ultrices tellus. Nulla lectus. Nunc
@@ -304,20 +347,58 @@ facilisis urna quis arcu. Fusce posuere.
 
 
 \appendix
-\chapter{SHA}
-Donec cursus nulla vitae pede. Etiam quam pede, aliquet ut,
-pellentesque sed, sagittis non, est. Quisque egestas malesuada
-risus. Maecenas ultricies libero a quam. Nullam feugiat arcu. Class
-aptent taciti sociosqu ad litora torquent per conubia nostra, per
-inceptos hymenaeos. In interdum, risus ut gravida sollicitudin, leo
-sapien commodo dui, non consectetuer nisl nunc ac massa. Mauris a orci
-in eros venenatis euismod. Curabitur orci. Quisque pharetra, dui sed
-dignissim hendrerit, nibh ante malesuada eros, sed tincidunt magna
-lorem a tellus. Aliquam erat volutpat. Aenean pulvinar, metus et
-mattis dictum, massa lacus semper purus, quis vehicula augue mi et
-leo. Ut eu ipsum. Sed dictum dapibus nisi. Cras mattis. Nulla sed
-augue ac sem tempus condimentum.
-
+\chapter{SHA-1}
+Pseudokod algorytmu hashującego wygląda następująco:\\
+Wartości początkowe:\\
+\hspace*{10mm}h0 := 0x67452301\\
+\hspace*{10mm}h1 := 0xEFCDAB89\\
+\hspace*{10mm}h2 := 0x98BADCFE\\
+\hspace*{10mm}h3 := 0x10325476\\
+\hspace*{10mm}h4 := 0xC3D2E1F0\\
+Przetwarzanie wstępne:\\
+dopisz '1' do wiadomości;\\
+dopisz k '0', gdzie k jest najmniejszą liczbą taką, że długość nowej wiadomości modulo 512 wynosi 448.\\
+Dopisz długość wiadomości w bitach (przed wypełnieniem) jako 64-bitową liczbę całkowitą zakodowaną big endian (w ten sposób długość całej wiadomości w bitach jest podzielna przez 512).\\
+Przetwarzaj wiadomość 512-bitowymi porcjami:\\
+for (każda porcja)\\
+\hspace*{10mm}podziel porcję na 16 32-bitowych słów kodowanych big-endian w(i), 0 <= i <= 15\\
+\hspace*{10mm}Rozszerz 16 32-bitowych słów w 80 32-bitowych słów:\\
+\hspace*{10mm}for i from 16 to 79\\
+\hspace*{20mm}w(i) := (w(i-3) xor w(i-8) xor w(i-14) xor w(i-16)) <<< 1\\
+\hspace*{10mm}Zainicjuj zmienne dla tej porcji:\\
+\hspace*{10mm}a := h0\\
+\hspace*{10mm}b := h1\\
+\hspace*{10mm}c := h2\\
+\hspace*{10mm}d := h3\\
+\hspace*{10mm}e := h4\\
+\hspace*{10mm}Główna pętla:\\
+\hspace*{10mm}for i from 0 to 79\\
+\hspace*{20mm}if 0 <= i <= 19 then\\
+\hspace*{30mm}f := (b and c) or ((not b) and d)\\
+\hspace*{30mm}k := 0x5A827999\\
+\hspace*{20mm}else if 20 <= i <= 39\\
+\hspace*{30mm}f := b xor c xor d\\
+\hspace*{30mm}k := 0x6ED9EBA1\\
+\hspace*{20mm}else if 40 <= i <= 59\\
+\hspace*{30mm}f := (b and c) or (b and d) or (c and d)\\
+\hspace*{30mm}k := 0x8F1BBCDC\\
+\hspace*{20mm}else if 60 <= i <= 79\\
+\hspace*{30mm}f := b xor c xor d\\
+\hspace*{30mm}k := 0xCA62C1D6\\
+\hspace*{20mm}temp := (a <<< 5) + f + e + k + w(i)\\
+\hspace*{20mm}e := d\\
+\hspace*{20mm}d := c\\
+\hspace*{20mm}c := b <<< 30\\
+\hspace*{20mm}b := a\\
+\hspace*{20mm}a := temp\\
+\hspace*{10mm}Dodaj skrót tej porcji do dotychczasowego wyniku:\\
+\hspace*{20mm}h0 := h0 + a\\
+\hspace*{20mm}h1 := h1 + b\\
+\hspace*{20mm}h2 := h2 + c\\
+\hspace*{20mm}h3 := h3 + d\\
+\hspace*{20mm}h4 := h4 + e\\
+Wytwórz ostateczną wartość skrótu (zakodowaną big-endian):\\
+\hspace*{10mm}skrót = h0 dopisz h1 dopisz h2 dopisz h3 dopisz h4
 \chapter{SHA-256}
 Donec cursus nulla vitae pede. Etiam quam pede, aliquet ut,
 pellentesque sed, sagittis non, est. Quisque egestas malesuada
