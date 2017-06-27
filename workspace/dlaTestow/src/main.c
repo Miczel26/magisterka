@@ -35,13 +35,14 @@ int main()
     /* Semihosting */
     initialise_monitor_handles();
     Des des;
+    Aes aes;
     TIM_HandleTypeDef timerHandle;
     TimerInit(&timerHandle);
 
 	printf("WOLF\n");
 	//test_sha(&timerHandle, 1, 30);
-	//test_aes(&timerHandle, &aes, 30);
-	test_des(&timerHandle, &des, 30);
+	test_aes(&timerHandle, &aes, 30);
+	//test_des(&timerHandle, &des, 30);
     /*
      * Examples of execution
      */

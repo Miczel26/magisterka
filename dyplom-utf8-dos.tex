@@ -26,6 +26,7 @@
 \usepackage{tabularx}
 \usepackage{hhline}
 \usepackage{multirow}
+\usepackage{changepage}
 
 \usepackage{tabto}
 \usepackage{listings} 
@@ -197,6 +198,7 @@ Badania przeprowadzono dla 30 wywołań algorytmu dla danych testowych o długo�
 \begin{table}[!h]
 
 \centering
+\begin{adjustwidth}{-1cm}{}
 \newcolumntype{C}{>{\centering\arraybackslash}X}%
         \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|}
         \hline 
@@ -238,6 +240,7 @@ Badania przeprowadzono dla 30 wywołań algorytmu dla danych testowych o długo�
 \textbf{Średnia}	& \textbf{690} &	\textbf{0.014} &	\textbf{2.225} &	\textbf{1261} &	\textbf{0.026} &	\textbf{2.437} &	\textbf{10010} &	\textbf{0.209} & \textbf{4.911} \\ \hline
     \end{tabularx}
     \caption{Czasy dla algorytmu SHA-1}
+        \end{adjustwidth}
 \end{table}
 \subsection{Hardware'owa implementacja algorytmu}
 
@@ -246,6 +249,7 @@ Użyty procesor STM32f217IGH6 posiada specjalnie dedykowane kryptoprocesory do w
 \begin{table}
 
 \centering
+\begin{adjustwidth}{-1cm}{}
 \newcolumntype{C}{>{\centering\arraybackslash}X}%
         \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|}
         \hline 
@@ -288,6 +292,7 @@ Użyty procesor STM32f217IGH6 posiada specjalnie dedykowane kryptoprocesory do w
 
     \end{tabularx}
     \caption{Czasy dla algorytmu SHA-1 ze wsparciem sprzętowym}
+        \end{adjustwidth}
 \end{table}\pagebreak 
 
 \section{Algorytm DES}
@@ -298,6 +303,7 @@ Pierwszym krokiem jest generowanie 16 rund kluczy na podstawie jednego klucza g�
 \begin{table}
 
 \centering
+\begin{adjustwidth}{-1cm}{}
 \newcolumntype{C}{>{\centering\arraybackslash}X}%
         \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
         \hline 
@@ -339,6 +345,7 @@ Pierwszym krokiem jest generowanie 16 rund kluczy na podstawie jednego klucza g�
 
     \end{tabularx}
     \caption{Czasy dla algorytmu DES}
+        \end{adjustwidth}
 \end{table}
 
 \subsection{Hardware'owa implementacja algorytum}
@@ -347,6 +354,7 @@ Podobnie jak w przypadku SHA-1 także DES posiada swój koprocesor kryptograficz
 \begin{table}
 
 \centering
+\begin{adjustwidth}{-1cm}{}
 \newcolumntype{C}{>{\centering\arraybackslash}X}%
         \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
         \hline 
@@ -390,11 +398,259 @@ Podobnie jak w przypadku SHA-1 także DES posiada swój koprocesor kryptograficz
 
     \end{tabularx}
     \caption{Czasy dla algorytmu DES ze wsparciem sprzętowym}
+    \end{adjustwidth}
 \end{table} \pagebreak
 
-\section{AES}
-AES (eng. Advanced Encryption Standard) jest symetrycznym szyfrem blokowym, który przetwarza dane w paczkach po 16 bajtów każda. Podobnie jak DES też składa się z części obliczającej klucze rundy i z części kodującej wiadomość. 
+\section{Algorytm AES}
+AES (eng. Advanced Encryption Standard) jest symetrycznym szyfrem blokowym, który przetwarza dane w paczkach po 16 bajtów każda. Podobnie jak DES też składa się z części obliczającej klucze rundy i z części kodującej wiadomość. Algorytm jest uznawany za bezpieczny i jest zalecany zamiast algorytmu DES, który przez krótki klucz jest łatwy do złamania.\\
 
+
+\subsection{Software'owa wydajność algorytmu}
+Pierwszym krokiem jest wygenerowanie kluczy 11/13/15 kluczy rund, następnie dane są kodowane w 10/12/14 rundach (pierwszy klucz dodawany jest na samym początku). Na danych dokonywane są takie operacje jak logiczny xor, cykliczne obracanie bajtów/bitów, podstawianie bajtów. Dokładny opis algorytmu przedstawiony jest w dodatku C. Czasy szyfrowania danych z użyciem algorytmu AES przedstawaiają tabele na kolejnych stronach.
+
+\begin{table}
+\begin{adjustwidth}{-1cm}{}
+\centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{2}{|c|}{Generowanie kluczy} & \multicolumn{3}{|c|}{16 bajtów} & \multicolumn{3}{|c|}{32 bajtów} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-12}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]}& {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1 &	260 &	0.0054 &	461 &	0.0096 &	1.666 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+2 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+3 &	261 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27647 &	0.576 &	1.778 \\ \hline
+4 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27656 &	0.576 &	1.777 \\ \hline
+5 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+6 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+7 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	900 &	0.019 &	1.707 &	27645 &	0.576 &	1.778 \\ \hline
+8 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+9 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+10 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+11 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+12 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+13 &	260 &	0.0054 &	461 &	0.0096 &	1.666 &	890 &	0.019 &	1.726 &	27657 &	0.576 &	1.777 \\ \hline
+14 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+15 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+16 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+17 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+18 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+19 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27647 &	0.576 &	1.778 \\ \hline
+20 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+21 &	261 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+22 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27656 &	0.576 &	1.777 \\ \hline
+23 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+24 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+25 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+26 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+27 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27657 &	0.576 &	1.777 \\ \hline
+28 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+29 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27645 &	0.576 &	1.778 \\ \hline
+30 &	260 &	0.0054 &	462 &	0.0096 &	1.662 &	890 &	0.019 &	1.726 &	27646 &	0.576 &	1.778 \\ \hline
+\textbf{Średnia} &	\textbf{260} &	\textbf{0.0054} &	\textbf{462} &	\textbf{0.0096} &	\textbf{1.663} &	\textbf{890} &	\textbf{0.019} &	\textbf{1.725} &	\textbf{27647} &	\textbf{0.576} &	\textbf{1.778} \\ \hline
+
+
+    \end{tabularx}
+    \caption{Czasy dla algorytmu AES dla 10-ciu rund}
+     \end{adjustwidth}
+\end{table}
+
+\begin{table}
+\begin{adjustwidth}{-1cm}{}
+\centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{2}{|c|}{Generowanie kluczy} & \multicolumn{3}{|c|}{16 bajtów} & \multicolumn{3}{|c|}{32 bajtów} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-12}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]}& {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+2 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+3 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+4 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32176 &	0.670 &	1.528 \\ \hline
+5 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+6 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32176 &	0.670 &	1.528 \\ \hline
+7 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32166 &	0.670 &	1.528 \\ \hline
+8 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+9 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+10 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32166 &	0.670 &	1.528 \\ \hline
+11 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+12 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+13 &	258 &	0.0054 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32166 &	0.670 &	1.528 \\ \hline
+14 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+15 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1050 &	0.022 &	1.463 &	32165 &	0.670 &	1.528 \\ \hline
+16 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+17 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+18 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+19 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+20 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+21 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+22 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32166 &	0.670 &	1.528 \\ \hline
+23 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+24 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+25 &	249 &	0.0052 &	544 &	0.011 &	1.412 &	1040 &	0.022 &	1.477 &	32165 &	0.670 &	1.528 \\ \hline
+26 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32176 &	0.670 &	1.528 \\ \hline
+27 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32165 &	0.670 &	1.528 \\ \hline
+28 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32164 &	0.670 &	1.528 \\ \hline
+29 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32175 &	0.670 &	1.528 \\ \hline
+30 &	249 &	0.0052 &	533 &	0.011 &	1.441 &	1039 &	0.022 &	1.478 &	32166 &	0.670 &	1.528 \\ \hline
+\textbf{Średnia} &	\textbf{249} &	\textbf{0.0052} &	\textbf{533} &	\textbf{0.011} &	\textbf{1.440} &	\textbf{1039} &	\textbf{0.022} &	\textbf{1.478} &	\textbf{32169} &	\textbf{0.670} &	\textbf{1.528} \\ \hline
+
+    \end{tabularx}
+    \caption{Czasy dla algorytmu AES dla 12-stu rund}
+	\end{adjustwidth}
+\end{table}
+
+\begin{table}
+\begin{adjustwidth}{-1cm}{}
+\centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{2}{|c|}{Generowanie kluczy} & \multicolumn{3}{|c|}{16 bajtów} & \multicolumn{3}{|c|}{32 bajtów} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-12}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]}& {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1 &	320 &	0.0067 &	603 &	0.013 &	1.274 &	1178 &	0.025 &	1.304 &	36683 &	0.764 &	1.340 \\ \hline
+2 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36695 &	0.764 &	1.339 \\ \hline
+3 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36685 &	0.764 &	1.340 \\ \hline
+4 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1178 &	0.025 &	1.304 &	36696 &	0.765 &	1.339 \\ \hline
+5 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36696 &	0.765 &	1.339 \\ \hline
+6 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+7 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36695 &	0.764 &	1.339 \\ \hline
+8 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+9 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36695 &	0.764 &	1.339 \\ \hline
+10 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+11 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+12 &	320 &	0.0067 &	603 &	0.013 &	1.274 &	1179 &	0.025 &	1.303 &	36694 &	0.764 &	1.340 \\ \hline
+13 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+14 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36696 &	0.765 &	1.339 \\ \hline
+15 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+16 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+17 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36695 &	0.764 &	1.339 \\ \hline
+18 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+19 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36695 &	0.764 &	1.339 \\ \hline
+20 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+21 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1189 &	0.025 &	1.292 &	36684 &	0.764 &	1.340 \\ \hline
+22 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36695 &	0.764 &	1.339 \\ \hline
+23 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+24 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36695 &	0.764 &	1.339 \\ \hline
+25 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+26 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36683 &	0.764 &	1.340 \\ \hline
+27 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36694 &	0.764 &	1.340 \\ \hline
+28 &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36684 &	0.764 &	1.340 \\ \hline
+29 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1179 &	0.025 &	1.303 &	36694 &	0.764 &	1.340 \\ \hline
+30 &	319 &	0.0066 &	604 &	0.013 &	1.272 &	1189 &	0.025 &	1.292 &	36684 &	0.764 &	1.340 \\ \hline
+Średnia &	320 &	0.0067 &	604 &	0.013 &	1.272 &	1180 &	0.025 &	1.302 &	36689 &	0.764 &	1.340 \\ \hline
+
+
+
+    \end{tabularx}
+    \caption{Czasy dla algorytmu AES dla 14-stu rund}
+	\end{adjustwidth}
+\end{table}
+
+\begin{table}
+\begin{adjustwidth}{-1cm}{}
+\centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{2}{|c|}{Generowanie kluczy} & \multicolumn{3}{|c|}{16 bajtów} & \multicolumn{3}{|c|}{32 bajtów} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-12}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]}& {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4752 &	0.099 &	10.343 \\ \hline
+2 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4763 &	0.099 &	10.320 \\ \hline
+3 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+4 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+5 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+6 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4764 &	0.099 &	10.317 \\ \hline
+7 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+8 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+9 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+10 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4764 &	0.099 &	10.317 \\ \hline
+11 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+12 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+13 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+14 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4767 &	0.099 &	10.311 \\ \hline
+15 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+16 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+17 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+18 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4767 &	0.099 &	10.311 \\ \hline
+19 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	376 &	0.008 &	4.085 &	4753 &	0.099 &	10.341 \\ \hline
+20 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+21 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+22 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4766 &	0.099 &	10.313 \\ \hline
+23 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+24 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+25 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+26 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4767 &	0.099 &	10.311 \\ \hline
+27 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+28 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+29 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4753 &	0.099 &	10.341 \\ \hline
+30 &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.208 &	4767 &	0.099 &	10.311 \\ \hline
+Średnia &	70 &	0.0015 &	294 &	0.006 &	2.612 &	365 &	0.008 &	4.204 &	4756 &	0.099 &	10.334 \\ \hline
+
+    \end{tabularx}
+    \caption{Czasy dla algorytmu AES dla 10-ciu rund ze wsparciem sprzętowym}
+	\end{adjustwidth}
+\end{table}
+
+\begin{table}
+\begin{adjustwidth}{-1cm}{}
+\centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{2}{|c|}{Generowanie kluczy} & \multicolumn{3}{|c|}{16 bajtów} & \multicolumn{3}{|c|}{32 bajtów} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-12}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]}& {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4754 &	0.099 &	10.339 \\ \hline
+2 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+3 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	378 &	0.008 &	4.063 &	4755 &	0.099 &	10.337 \\ \hline
+4 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+5 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+6 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+7 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+8 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+9 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+10 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+11 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+12 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+13 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+14 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+15 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+16 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+17 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+18 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+19 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+20 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+21 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+22 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4754 &	0.099 &	10.339 \\ \hline
+23 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+24 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+25 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+26 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4754 &	0.099 &	10.339 \\ \hline
+27 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+28 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+29 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+30 &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.185 &	4755 &	0.099 &	10.337 \\ \hline
+Średnia &	80 &	0.0017 &	295 &	0.006 &	2.603 &	367 &	0.008 &	4.181 &	4755 &	0.099 &	10.337 \\ \hline
+
+
+    \end{tabularx}
+    \caption{Czasy dla algorytmu AES dla 12-stu rund ze wsparciem sprzętowym}
+	\end{adjustwidth}
+\end{table}
 \chapter{Problemy przy realizacji zadania}
 
 \chapter{Podsumowanie}
@@ -470,17 +726,76 @@ Podziel otrzymaną wartość na osiem 6-bitowych bloków od $B_1$ do $B_8$.\\
 Następnie korzystając z tabel zwanych S-Boxami dokonujemy zamiany wartości $B_i$ na $S_i$($S_i$). Każda wartość w S-Boxach ma tylko 4 bity dlatego w rezultacie otrzymane wyrażenie $S_1(B_1)S_2(B_2)S_3(B_3)S_4(B_4)S_5(B_5)S_6(B_6)S_7(B_7)S_8(B_8)$ ma tylko 32 bity.\\
 Ostatnim krokiem jest dokonanie permutacji uzyskanych bitów za pomocą tabeli P.\\
 
+\chapter{AES}
+Pseudokod algorytmu wygląda następująco:\vspace*{1 cm}\\
+1. Rozszerzenie klucza z N = 16/24/32 bajtów do B = 176/208/240 bajtów w zależności od ilości rund wygląda następująco:\\
+\hspace*{1 cm}Pierwsze N bajtów jest normalnie przepisywanych\\
+\hspace*{1 cm}iloscBajtow = N\\
+\hspace*{1 cm}nrRundy = 1\\
+\hspace*{1 cm}dopóki iloscBajtów < N:\\
+\hspace*{10mm}for ( i = 0; i < 4; i++)\\
+\hspace*{20mm}t[a] = klucz[i + iloscBajtow - 4]\\
+\hspace*{10mm}if (iloscBajtow \% (16/24/32) == 0)\\
+\hspace*{20mm}PrzeliczKluczRundy(t,nrRundy)\\
+\hspace*{20mm}nrRundy++\\
+\hspace*{10mm}for (i = 0; i < 4; i++)\\
+\hspace*{20mm}klucz[iloscBajtow] = klucz[iloscBajtow - 16] $\oplus$ t[i]\\
+\hspace*{20mm}iloscBajtow++\\
+Operacja PrzeliczKluczRundy(t, nrRundy) wygląda następująco:\\
+\hspace*{10mm}Obróć t cyklicznie 8 bitów w lewo\\
+\hspace*{10mm}for (i = 0; i < 4; i++)\\
+\hspace*{20mm}t[i] = sBox[t[i]]\\
+\hspace*{10mm}t[0] = t[0] $\oplus$ rcon(i)\\
+sBox i rcon to tablice z wartościami zawartymi w standardzie.\vspace*{1 cm}\\
+2. Po wygenerowaniu kluczy wszystkich rund zaczyna się kodowanie danych w porcjach po 16 bajtów każda:\\
+\hspace*{1 cm}Operacja XOR danych wejściowych z pierwszym kluczem\\
+\hspace*{1 cm}for ( nrRundy = 1; nrRundy < (9/11/13); nrRundy++ )\\
+\hspace*{2 cm}Dane (16 bajtów) przedstaw jako tablicę dwuwymiarową o wymiarach 4 bajty \hspace*{2 cm}na 4 bajty\\
+\hspace*{2 cm}Dokonaj operacji podstawienia bajtów: bajt = f(bajt)\\
+\hspace*{2 cm}Dokonaj operacji cyklicznego obracania wierszy:\\
+\hspace*{3 cm}drugi wiersz 1 bajt w lewo\\
+\hspace*{3 cm}trzeci wiersz 2 bajty w lewo\\
+\hspace*{3 cm}czwarty wiersz 3 bajty w lewo\\
+\hspace*{2 cm}Każdą kolumnę tablicy pomnóż przez stałą macierz w polu Galoiss\\
+\hspace*{2 cm}Do wyniku dodaj modulo 2 klucz rundy\\
+Na koniec wykonywana jest jeszcze jedna runda, w której pomijana jest  operacja mnożenia przez macierz.
+
+
 
 \addcontentsline{toc}{chapter}{Bibliografia} %utworzenie w
                                              %spisietreÄšÂci pozycji
                                              %Bibliografia
 
-\bibliography{bibliografia} % wstawia bibliografiĂÂ korzystajĂÂc z pliku
+
+\begin{thebibliography}{9}
+\bibitem{latexcompanion} 
+Michel Goossens, Frank Mittelbach, and Alexander Samarin. 
+\textit{The \LaTeX\ Companion}. 
+Addison-Wesley, Reading, Massachusetts, 1993.
+ 
+\bibitem{einstein} 
+Albert Einstein. 
+\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
+[\textit{On the electrodynamics of moving bodies}]. 
+Annalen der Physik, 322(10):891–921, 1905.
+ 
+\bibitem{knuthwebsite} 
+Knuth: Computers and Typesetting,
+\\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
+\end{thebibliography}
+
+
+%\bibliography{bibliografia} % wstawia bibliografiĂÂ korzystajĂÂc z pliku
                             % bibliografia.bib - dotyczy BibTeXa,
                             % jeÄšĹşeli nie korzystamy z BibTeXa naleÄšĹşy
                             % uÄšĹşyĂÂ otoczenia thebibliography
 http://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm
+
+\addcontentsline{toc}{chapter}{Spis rysunków}
 \listoffigures
+
+
+\addcontentsline{toc}{chapter}{Spis tablic}
 \listoftables
 
 %opcjonalnie moÄšĹşe siĂÂ tu pojawiĂÂ spis rysunkÄĹw i tabel

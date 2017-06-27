@@ -15,12 +15,35 @@
  */
 void test_aes(TIM_HandleTypeDef *timerHandle, Aes *aes, uint8_t nrOfMeasurments)
 {
-    byte cipher[256];
+    byte cipher[1024];
         for (int i = 0; i < nrOfMeasurments; ++i)
         {
             TimerStart(timerHandle);
-            wc_AesSetKey(aes, AesKey, 16, AesIV, AES_ENCRYPTION);
+            wc_AesSetKey(aes, AesKey24, 24, AesIV, AES_ENCRYPTION);
+            printf("%d ", TimerStop(timerHandle));
+            TimerStart(timerHandle);
             wc_AesCbcEncrypt(aes, AesOneBlock, AesOneBlock, sizeof(AesOneBlock));
             printf("%d\n", TimerStop(timerHandle));
         }
+        printf("Two block\n");
+        for (int i = 0; i < nrOfMeasurments; ++i)
+        {
+            TimerStart(timerHandle);
+            wc_AesSetKey(aes, AesKey24, 24, AesIV, AES_ENCRYPTION);
+            printf("%d ", TimerStop(timerHandle));
+            TimerStart(timerHandle);
+            wc_AesCbcEncrypt(aes, AesTwoBlock, AesTwoBlock, sizeof(AesTwoBlock));
+            printf("%d\n", TimerStop(timerHandle));
+        }
+        printf("1024 bytes\n");
+        for (int i = 0; i < nrOfMeasurments; ++i)
+        {
+            TimerStart(timerHandle);
+            wc_AesSetKey(aes, AesKey24, 24, AesIV, AES_ENCRYPTION);
+            printf("%d ", TimerStop(timerHandle));
+            TimerStart(timerHandle);
+            wc_AesCbcEncrypt(aes, Aes1024Bytes, Aes1024Bytes, sizeof(Aes1024Bytes));
+            printf("%d\n", TimerStop(timerHandle));
+        }
+
 }
