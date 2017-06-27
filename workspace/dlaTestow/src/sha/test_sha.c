@@ -54,6 +54,22 @@ void test_sha(TIM_HandleTypeDef *timerHandle, uint8_t shaType, uint8_t nrOfMeasu
             printf("%d\n", TimerStop(timerHandle));
         }
 
+        printf("Sha Two blocks: \n");
+        for (int i = 0; i < nrOfMeasurments; ++i)
+        {
+            TimerStart(timerHandle);
+            wc_InitSha(&sha);
+            printf("%d ", TimerStop(timerHandle));
+
+            TimerStart(timerHandle);
+            wc_ShaUpdate(&sha, Sha1_1024BytesBlocks, sizeof(Sha1_1024BytesBlocks));
+            printf("%d ", TimerStop(timerHandle));
+
+            TimerStart(timerHandle);
+            wc_ShaFinal(&sha, output);
+            printf("%d\n", TimerStop(timerHandle));
+        }
+
         break;
     }
     case SHA256:

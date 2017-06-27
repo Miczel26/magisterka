@@ -23,6 +23,7 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{hhline}
+\usepackage{multirow}
 
 \usepackage{tabto}
 \usepackage{listings} 
@@ -38,8 +39,8 @@
                                            %składania twierdzeń
 
 %dane do zÄšÂoÄšĹşenia strony tytuÄšÂowej
-\title{Tytuł pracy magisterskiej}
-\engtitle{Master thesis title}
+\title{Badanie wydajności algorytmów z kluczem symetrycznym w bibliotece kryptograficznej WolfSSL na platformie STM32F2}
+\engtitle{Performance analysis of symmetric-key algorithms in WolfSSL cryptographic library on STM32F2 platform}
 \author{Michał Stroka}
 \supervisor{dr inż. Grzegorz Budzyń, I-6}
 
@@ -69,14 +70,18 @@ W dzisiejszym świecie, gdy wraz z rozwojem i rozpowszechnieniem się komputeró
 
 \chapter{Cel pracy}
 
-Celem pracy magisterskiej jest zbadanie wydajności algorytmów symetrycznych w bibliotece kryptograficznej WolfSSL na wybranej platformie embedded. Praca zakłada kompilację biblioteki na wybraną platformę, stworzenie środowiska testowego pozwalającego na  przeprowadzenie pomiarów w sposób łatwy i automatyczny, porównanie czasów wykonywania algorytmów tylko w procesorze oraz z użyciem wbudowanych procesorów kryptograficznych, a także stworzenie własnej implementacji niektórych algorytmów i porównania ich prędkości.
+Celem pracy magisterskiej jest zbadanie wydajności algorytmów symetrycznych w bibliotece kryptograficznej WolfSSL na platformie STM32F2. Praca zakłada kompilację biblioteki na wybraną platformę, zaprojektowanie i stworzenie środowiska testowego pozwalającego na  przeprowadzenie pomiarów w sposób łatwy i automatyczny, porównanie czasów wykonywania algorytmów tylko w procesorze oraz z użyciem wbudowanych procesorów kryptograficznych, a także stworzenie własnej implementacji niektórych algorytmów i porównania ich prędkości.
 \chapter{Konfiguracja środowiska}
 
-Platformą testową, na której badana jest wydajność biblioteki WolfSSL to płytka testowa STM3221G-EVAL z mikroprocesorem STM32F217IG. Procesor ten posiada specjalnie dedykowane hardware'owe jednostki kryptograficzne, które pozwalają na znaczne przyspieszenie niektórych algorytmów dzięki sprzętowemu wykonywaniu części obliczeń.  Algorytmy symetryczne, dla których wsparcie sprzętowe posiada wyżej wymieniony procesor, to AES, DES, MD5 i SHA-1. Wszystkie one mogą być wykorzystywane przez bibliotekę WolfSSL. W pracy zostaną porównane wydajności algorytmów z i bez użycia kryptojednostek oraz porównanie czasów z własną implementacją algorytmów.\
+Platformą testową, na której badana jest wydajność biblioteki WolfSSL to płytka testowa STM3221G-EVAL z mikroprocesorem STM32F217IG. Procesor ten posiada specjalnie dedykowane hardware'owe jednostki kryptograficzne, które pozwalają na znaczne przyspieszenie niektórych algorytmów dzięki sprzętowemu wykonywaniu części obliczeń.  Algorytmy symetryczne, dla których wsparcie sprzętowe posiada wyżej wymieniony procesor, to AES, DES, MD5 i SHA-1. Wszystkie one mogą być wykorzystywane przez bibliotekę WolfSSL. W pracy zostaną porównane wydajności algorytmów z i bez użycia kryptojednostek oraz porównanie czasów z własną implementacją algorytmów.
 \begin{center}
+\begin{figure}[h]
 \includegraphics[width = \textwidth]{stm3221g-eval}
-\\Rys. 1. Płytka testowa stm3221g-eval
+\caption{Płytka testowa stm3221g-eval}
+\end{figure}
+
 \end{center}
+
 
 
 \section{Struktura katalogów w projekcie}
@@ -136,15 +141,17 @@ CFLAGS="-mcpu=cortex-m3 -march=armv7-m -mthumb -mlittle-endian -DNO\_WRITEV \\-D
 \\Zmienna LDFLAGS zawiera dodatkowe flagi dla linkera. Flaga -lc dodaje bibliotekę libc.a do kompilacji, flaga -specs=nosys.specs oznacza, że aplikacja będzie działała na platformie bez systemu operacyjnego i funkcje systemowe jak np. malloc muszą być dodane przez kompilator
 \\Zmienna CFLAGS zawiera dodatkowe zmienne dla kompilatora. Zmienna -mcpu=cortex-m3 oznacza że program będzie wykonywany na platformie Cortex-M3, -march=armv7-m określa architekturę procesora jako ARMv7-M, -mthumb dodaje rozszerzony zestaw instrukcji asemblerowych Thumb, -mlittle-endian oznacza że zmienne w procesorze są pzechowywane w formacie little endian (najmniej znaczący bit jest najmłodszy). Flagi -NO\_WRITEV -WOLFSSL\_USER\_IO oznaczają, że w systemie nie ma żadnych instrukcji wejścia/wyjścia, a użytkownik posiada swoje funkcje IO (eng. input/output). Kolejne flagi zaczynające się od I/ zawierają ścieżki do plików nagłóWkowych i żródłowych bibliotek STM32F2.
 \\Ostatnia linia skryptu wywołuje inny skrypt dostarczany przez WolfSSL, który przetwarza wszystkie dane i tworzy własny plik Makefile.
-Tak przygotowany plik jest do kompilacji. Poleceniem \textit{make src/libwolfssl.la} kompilujemy bibliotekę do pliku libwolfssl.la. 
+Tak przygotowana biblioteka jest już prawie gotowa do kompilacji. Ostatnim krokiem jest poprawienie stworzonego pliku Makefile. Z flag kompilacji należy usunąć -fpie. Jest to flaga Position Independent Executable, która normalnie powoduje że kod biblioteki może być wpisany w dowolne miejsce w pamięci. Niestety w przyapdku platformy STM32F2 powodowało to, że w czasie wykonywania programu procesor próbował odczytywać nieistniejące rejestry pamięci, co koóńczyło się zawieszeniem procesora, przez uruchomienie procedury HardFault\_handler. Znalezione rozwiązanie zostało przedstawione supportowi WolfSSL i została wydana nowa wersja biblioteki 3.10.0, która domyślnie nie wstawia tej flagi. Po dokonaniu zmiany poleceniem \textit{make src/libwolfssl.la} kompilujemy bibliotekę do pliku libwolfssl.la. 
 
 \chapter{Pomiar czasu}
-Pomiar czasu można wykonać na dwa podstawowe sposoby: przez zastosowanie portów GPIO, lub przez użycie wewnętrznych timerów procesora. Pierwszy sposób zakłada zmianę stanu napięcia w chwilach rozpoczęcia i zakończenia wykonywania algorytmu, a następnie dzięki podpięciu oscyloskopu pomiar częstotliwości zmian napięcia na wybranym pinie. Drugi sposób wykorzystuje timery procesora, który jest w stanie zliczać impulsy z częstotliwością równą częstotliwości taktowania procesora, czyli 96 MHz. W pracy zdecydowano się na drugi sposób z uwagi na łatwiejszą konfigurację projektu oraz pełną automatyzację wykonywania pomiarów.\\
+Pomiary czasu można wykonać na dwa podstawowe sposoby: przez zastosowanie portów GPIO, lub przez użycie wewnętrznych timerów procesora. Pierwszy sposób zakłada zmianę stanu napięcia w chwilach rozpoczęcia i zakończenia wykonywania algorytmu, a następnie dzięki podpięciu oscyloskopu pomiar częstotliwości zmian napięcia na wybranym pinie. Drugi sposób wykorzystuje timery procesora, który jest w stanie zliczać impulsy z częstotliwością równą częstotliwości taktowania procesora, czyli 96 MHz. W pracy zdecydowano się na drugi sposób z uwagi na łatwiejszą konfigurację projektu, mniej złożone stanowisko testowe oraz pełną automatyzację wykonywania pomiarów.
 \begin{center}
+\begin{figure}[h]
 \includegraphics[width = \textwidth]{liczniki}
-\\Rys. 2. Schemat konfiguracji licznika
-\end{center}
+\caption{Schemat konfiguracji licznika}
+\end{figure}
 
+\end{center}
 Konfiguracja wewnętrznych timerów została przeprowadzona za pomocą biblioteki HAL. Został wybrany 32-bitowy licznik zliczający przejścia zegara procesora z logicznego ,,0'' na ,,1''. W ten sposób uzyskany został pomiar z dokładnością do $\frac{1}{48000000}$ sekundy i maksymalną mierzoną wartością $2^{32} * \frac{1}{48000000} \approx$ 90 sekund. Do pomiaru czasu służą 3 proste funkcje: inicjalizująca timer, rozpoczynająca oraz kończąca pomiar.
 \\Funkcja inicjująca najpierw wybiera timer2 (32-bitowy), ustawia preskaler oraz dzielnik częstotliwości na 1 aby osiągnąć maksymalną dokładność pomiaru oraz ustawia kierunek zliczania impulsów w górę i makysmalną wartość timera na 0xFFFFFFFF:\\
 \texttt{
@@ -171,55 +178,64 @@ uint32\_t TimerStop(TIM\_HandleTypeDef *timerHandle)\\
 \hspace*{10mm}return timerHandle->Instance->CNT;\\
 \}
 }
-\section{Wyniki dla SHA1}
-Przykładowe wyniki pomiarów dla 30 wykonań algorytmu SHA-1 wyglądają następująco:
-\begin{center}
 
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-\hline 
-\multicolumn{4}{|c|}{Software crypto} & \multicolumn{4}{|c|}{hadware crypto} \\
-\hline 
-\multicolumn{2}{|c|}{32 bajty} & \multicolumn{2}{|c|}{64 bajty} & \multicolumn{2}{|c|}{32 bajty} & \multicolumn{2}{|c|}{64 bajty} \\
-\hline 
-licznik & czas[ms] & licznik & czas[ms] & licznik & czas[ms] & licznik & czas[ms] \\
-\hline 
-690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1262 &	0.026 &	252 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	252 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-692 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1261 &	0.026 &	252 &	0.005 &	318 &	0.007 \\
-691 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-691 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1270 &	0.026 &	252 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	252 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1261 &	0.026 &	252 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1260 &	0.026 &	253 &	0.005 &	317 &	0.007 \\
-690 &	0.014 &	1261 &	0.026 &	253 &	0.005 &	318 &	0.007 \\
+\chapter{Algorytm SHA-1}
 
-\hline 
-\end{tabular} 
+SHA-1 to powstały w 1993 roku algorytm hashujący. Jako dane wejściowe pobiera wiadomość o maksymalnej długości $2^{64}$ bitów i zamienia je w 160-bitowy skrót. Tak jak wszystkie algorytmy haszujące, głównym zastosowaniem algorytmu SHA-1 jest weryfikacja inegralności plików lub wiadomości. Wraz z każdą wiadomością może być wysyłany jej skrót SHA-1. W momencie gdy adresat odbiera wiadomość oblicza jej skrót SHA-1. Jeżeli skróty są od siebie różne, to mamy pewność że któryś z bitów został źle odebrany i wiadomość nie może dalej być przetwarzana. 
 
-\end{center}
-\chapter{Biblioteka WolfSSL}
-WolfSSL to opensourcowa biblioteka kryptograficzna napisana w języku C. Jest przeznaczona przede wszystkim na systemy wbudowane ze względu na mały rozmiar, wysoką prędkość biblioteki, oraz optymalizację na wiele platform embedded na czele z STM32, freescalem czy Texas Instrument. W bibliotece znajduje się silnik kryptograficzny wolfcrypt, który został poddany badaniom. W celu pobrania kodów źródłowych biblioteki wchodzimy na stronę producenta: www.wolfssl.com i pobieramy bibliotekę w najnowszej wersji 3.9.10
+\section{Software'owa implementacja algorytmu}
+
+Algorytm SHA-1 składa się z trzech części: inicjalizacja danych, przetwarzanie wszystkich danych poza ostatnią częsią, przetworzenie ostatniej części. Dane przetwarzane są partiami po 32 bajty w każdym cyklu. W każdym cyklu na bajtach dokonywane są operacje logiczne: and i xor, a także operacja przesuwania bitowego. Dokładny opis algorytmu znajduje się w Dodatku A.
+
+Badania przeprowadzono dla 30 wywołań algorytmu dla danych testowych o długościach: 32 bajtów, 64 bajtów i 1 kilobajta. Wyniki są następujące:
+
+
+\begin{table}
+
+\centering
+        \begin{tabularx}{\linewidth + 1}{|X|X|X|X|X|X|X|X|X|X|}
+        \hline 
+         & \multicolumn{3}{|c|}{32 bajty} & \multicolumn{3}{|c|}{64 bajty} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-10}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1	& 690 &	0.014 &	2.226 &	1261 &	0.026 &	2.436 &	10004 &	0.208 &	4.913 \\
+\hline
+2 &	691	& 0.014	& 2.223 &	1261 &	0.026 &	2.436 &	10015 &	0.209 &	4.908 \\ \hline
+3 &	691	& 0.014	& 2.223 &	1261 &	0.026 &	2.436 &	10004 &	0.208 &	4.913 \\ \hline
+4 &	690	& 0.014	& 2.226 &	1260 &	0.026 &	2.438 &	10015 &	0.209 &	4.908 \\ \hline
+5 &	691	& 0.014	& 2.223 &	1261 &	0.026 &	2.436 &	10005 &	0.208 &	4.913 \\ \hline
+6 &	690	& 0.014	& 2.226 &	1261 &	0.026 &	2.436 &	10014 &	0.209 &	4.908 \\ \hline
+7 &	690	& 0.014	& 2.226 &	1260 &	0.026 &	2.438 &	10005 &	0.208 &	4.913 \\ \hline
+8 &	690	& 0.014	& 2.226 &	1260 &	0.026 &	2.438 &	10015 &	0.209 &	4.908 \\ \hline
+9 &	691	& 0.014	& 2.223 &	1261 &	0.026 &	2.436 &	10004 &	0.208 &	4.913 \\ \hline
+10 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10015 &	0.209 &	4.908 \\ \hline
+11 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10004 &	0.208 &	4.913 \\ \hline
+12 &	690	& 0.014 &	2.226 &	1261 &	0.026 &	2.436 &	10015 &	0.209 &	4.908 \\ \hline
+13 &	691	& 0.014 &	2.223 &	1260 &	0.026 &	2.438 &	10004 &	0.208 &	4.913 \\ \hline
+14 &	691	& 0.014 &	2.223 &	1260 &	0.026 &	2.438 &	10014 &	0.209 &	4.908 \\ \hline
+15 &	691	& 0.014 &	2.223 &	1260 &	0.026 &	2.438 &	10005 &	0.208 &	4.913 \\ \hline
+16 &	691	& 0.014 &	2.223 &	1260 &	0.026 &	2.438 &	10015 &	0.209 &	4.908 \\ \hline
+17 &	690	& 0.014 &	2.226 &	1261 &	0.026 &	2.436 &	10005 &	0.208 &	4.913 \\ \hline
+18 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10015 &	0.209 &	4.908 \\ \hline
+19 &	690	& 0.014 &	2.226 &	1271 &	0.026 &	2.417 &	10005 &	0.208 &	4.913 \\ \hline
+20 &	691	& 0.014 &	2.223 &	1260 &	0.026 &	2.438 &	10015 &	0.209 &	4.908 \\ \hline
+21 &	691	& 0.014 &	2.223 &	1260 &	0.026 &	2.438 &	10005 &	0.208 &	4.913 \\ \hline
+22 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10015 &	0.209 &	4.908 \\ \hline
+23 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10005 &	0.208 &	4.913 \\ \hline
+24 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10016 &	0.209 &	4.907 \\ \hline
+25 &	690	& 0.014 &	2.226 &	1261 &	0.026 &	2.436 &	10004 &	0.208 &	4.913 \\ \hline
+26 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10016 &	0.209 &	4.907 \\ \hline
+27 &	690	& 0.014 &	2.226 &	1263 &	0.026 &	2.432 &	10004 &	0.208 &	4.913 \\ \hline
+28 &	690	& 0.014 &	2.226 &	1261 &	0.026 &	2.436 &	10007 &	0.208 &	4.912 \\ \hline
+29 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10004 &	0.208 &	4.913 \\ \hline
+30 &	690	& 0.014 &	2.226 &	1260 &	0.026 &	2.438 &	10016 &	0.209 &	4.907 \\ \hline
+\textbf{Średnia}	& \textbf{690} &	\textbf{0.014} &	\textbf{2.225} &	\textbf{1261} &	\textbf{0.026} &	\textbf{2.437} &	\textbf{10010} &	\textbf{0.209} & \textbf{4.911} \\ \hline
+    \end{tabularx}
+    \caption{Czasy dla algorytmu SHA-1}
+
+
+\end{table}
 
 \chapter{AES}
 Quisque nibh sapien, lobortis posuere, dignissim id, ultricies ut,
