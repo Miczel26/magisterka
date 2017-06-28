@@ -12,7 +12,7 @@ TARGET_FLAGS = -mcpu=$(ARM_FAMILY) -march=$(ARCHITECTURE) -m$(INSTRUCTION_SET) -
 
 #Optimization options
 OPTYMIZATION_LEVEL = o3
-OPTYMIZATION_FLAGS = -$(OPTYMIZATION_LEVEL) -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections
+OPTYMIZATION_FLAGS = -$(OPTYMIZATION_LEVEL) -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wno-pragmas -Wall -Wno-strict-aliasing -Wextra -Wunknown-pragmas --param=ssp-buffer-size=1 -Waddress -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wundef -Wunused -Wunused-result -Wunused-variable -Wwrite-strings -fwrapv -g -ggdb
 
 #Debugging options
 DEBUG_LEVEL = g3

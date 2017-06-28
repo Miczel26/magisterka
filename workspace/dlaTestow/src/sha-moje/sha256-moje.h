@@ -3,22 +3,26 @@
 
 #include "../../inc/timer/timer.h"
 #include "../../test_vectors/sha/ShaData.h"
+#include "stm32f2xx.h"
+#include "stm32f2xx_hash.h"
 #include <stdlib.h>
 
+#define SHA_BLOCK_SIZE    ( 64 )
+#define SHA_DIGEST_SIZE   ( 20 )
+#define SHA_REG_SIZE      (  4 )
+#define SHA_PAD_SIZE 	  ( 56 )
 /**************************** DATA TYPES ****************************/
-typedef uint8_t BYTE;             // 8-bit byte
-typedef uint32_t WORD;             // 32-bit word, change to "long" for 16-bit machines
-
-typedef struct {
-    uint8_t data[64];
-	uint32_t datalen;
-	uint32_t bitlen;
-	uint32_t state[8];
-} SHA256_CTX;
+typedef struct Sha {
+    uint32_t  buffLen;   /* in bytes          */
+    uint32_t  loLen;     /* length in bytes   */
+    uint32_t  hiLen;     /* length in bytes   */
+    uint32_t  buffer[ 16 ] ;
+    uint32_t  digest[ 5 ];
+} Sha;
 
 /*********************** FUNCTION DECLARATIONS **********************/
-void sha256_init(SHA256_CTX *ctx);
-void sha256_update(SHA256_CTX *ctx, const BYTE data[], int len);
-void sha256_final(SHA256_CTX *ctx, BYTE hash[]);
-void sha256_moje_test(TIM_HandleTypeDef *timerHandle);
+int Sha_1_Init(Sha* sha);
+int Sha_1_Update(Sha* sha, const uint8_t* data, uint32_t len);
+int Sha_1_Final(Sha* sha, uint8_t* hash);
+void test_sha_1(TIM_HandleTypeDef *timerHandle, uint8_t nrOfMeasurments);
 

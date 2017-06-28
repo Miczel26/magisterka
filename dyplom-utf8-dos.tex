@@ -74,7 +74,7 @@ W dzisiejszym świecie, gdy wraz z rozwojem i rozpowszechnieniem się komputeró
 
 \chapter{Cel pracy}
 
-Celem pracy magisterskiej jest zbadanie wydajności algorytmów symetrycznych w bibliotece kryptograficznej WolfSSL na platformie STM32F2. Praca zakłada kompilację biblioteki na wybraną platformę, zaprojektowanie i stworzenie środowiska testowego pozwalającego na  przeprowadzenie pomiarów w sposób łatwy i automatyczny, porównanie czasów wykonywania algorytmów tylko w procesorze oraz z użyciem wbudowanych procesorów kryptograficznych, a także stworzenie własnej implementacji niektórych algorytmów i porównania ich prędkości.
+Celem pracy magisterskiej jest zbadanie wydajności algorytmów symetrycznych w bibliotece kryptograficznej WolfSSL na platformie STM32F2. Praca zakłada kompilację biblioteki na wybraną platformę, zaprojektowanie i stworzenie środowiska testowego pozwalającego na  przeprowadzenie pomiarów w sposób łatwy i automatyczny, porównanie czasów wykonywania algorytmów tylko w procesorze oraz z użyciem wbudowanych procesorów kryptograficznych, a także próba poprawienia implementacji niektórych algorytmów w celu polepszenia ich wydajności.\\Do pracy dołączona jest płyta z całym projektem.
 \chapter{Konfiguracja środowiska}
 
 Platformą testową, na której badana jest wydajność biblioteki WolfSSL to płytka testowa STM3221G-EVAL z mikroprocesorem STM32F217IG. Procesor ten posiada specjalnie dedykowane hardware'owe jednostki kryptograficzne, które pozwalają na znaczne przyspieszenie niektórych algorytmów dzięki sprzętowemu wykonywaniu części obliczeń.  Algorytmy symetryczne, dla których wsparcie sprzętowe posiada wyżej wymieniony procesor, to AES, DES, MD5 i SHA-1. Wszystkie one mogą być wykorzystywane przez bibliotekę WolfSSL. W pracy zostaną porównane wydajności algorytmów z i bez użycia kryptojednostek oraz porównanie czasów z własną implementacją algorytmów.
@@ -292,6 +292,60 @@ Użyty procesor STM32f217IGH6 posiada specjalnie dedykowane kryptoprocesory do w
 
     \end{tabularx}
     \caption{Czasy dla algorytmu SHA-1 ze wsparciem sprzętowym}
+        \end{adjustwidth}
+\end{table}
+
+\subsection{Poprawiona hardware'owa implementacja algorytmu}
+
+Podczas analizy kodu biblioteki WolfSSL okazało się, że do zmiany końcowych wartośsci wyniku z formatu big-endian na little-endian wykorzystuje ona funkcję, która po kolei wyciąga bajty z liczby 32-bitowej i zamienia ich kolejność. Dzięki zastosowaniu asemblerowej instrukcji rev Rev Rn, Rm dokonującej operacji zamiany bajtów udało się lekko poprawić uzyskiwane czasy biblioteki
+
+\begin{table}
+
+\centering
+\begin{adjustwidth}{-1cm}{}
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+        \begin{tabularx}{18 cm}{|C|C|C|C|C|C|C|C|C|C|}
+        \hline 
+         & \multicolumn{3}{|c|}{32 bajty} & \multicolumn{3}{|c|}{64 bajty} & \multicolumn{3}{|c|}{1024 bajty} \\
+        \cline{2-10}
+{\fontsize{10}{12}\selectfont Nr} & {\fontsize{10}{12}\selectfont licznik} &  {\fontsize{10}{12}\selectfont czas [ms]} & {\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} & {\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} & {\fontsize{10}{12}\selectfont licznik} &{\fontsize{10}{12}\selectfont czas [ms]} &{\fontsize{10}{12}\selectfont prędkość [MB/s]} \\
+            \hline
+1	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+2	&	248	&	0.005	&	6.194	&	308	&	0.006	&	9.974	&	2214	&	0.046	&	22.201	\\	\hline
+3	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+4	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+5	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+6	&	248	&	0.005	&	6.194	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+7	&	248	&	0.005	&	6.194	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+8	&	248	&	0.005	&	6.194	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+9	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+10	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+11	&	248	&	0.005	&	6.194	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+12	&	248	&	0.005	&	6.194	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+13	&	248	&	0.005	&	6.194	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+14	&	248	&	0.005	&	6.194	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+15	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+16	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+17	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+18	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+19	&	248	&	0.005	&	6.194	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+20	&	248	&	0.005	&	6.194	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+21	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2214	&	0.046	&	22.201	\\	\hline
+22	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+23	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+24	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+25	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+26	&	248	&	0.005	&	6.194	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+27	&	249	&	0.005	&	6.169	&	307	&	0.006	&	10.007	&	2204	&	0.046	&	22.301	\\	\hline
+28	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+29	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+30	&	249	&	0.005	&	6.169	&	308	&	0.006	&	9.974	&	2204	&	0.046	&	22.301	\\	\hline
+
+\textbf{Średnia}	&	\textbf{249}	&	\textbf{0.005}	&	\textbf{6.178}	&	\textbf{307}	&	\textbf{0.006}	&	\textbf{9.992}	&	\textbf{2205}	&	\textbf{0.046}	&	\textbf{22.295}	\\ \hline
+
+
+    \end{tabularx}
+    \caption{Czasy poprawionego algorytmu SHA-1 ze wsparciem sprzętowym}
         \end{adjustwidth}
 \end{table}\pagebreak 
 
@@ -702,7 +756,17 @@ Pierwszym krokiem jest wygenerowanie kluczy 11/13/15 kluczy rund, następnie dan
 \end{table}
 \chapter{Problemy przy realizacji zadania}
 
-\chapter{Podsumowanie}
+Największym problemem przy realizacji zadania okazały się być kompilacja i uruchomienie biblioteki WolfSSL. Już na samym początku okazało się, że pomimo biblioteka wspiera wiele platdorm w tym STM32F2, to jednak jedynym oficjalnym komilatorem mogącym ją skompilować jest kompilator Keil'a. Dodanie opcji kompilacji przez arm-none-eabi-gcc wymagało dodatkowej modyfikacji plików nagłówkowych  biblioteki.\\Nawet po modyfikacji nagłówków, zkonfigurowaniu i zbudowaniu biblioteki a następnie uruchomieniu jej na płytce okazało się, że przy wywoływaniu wielu funkcji program przestaje działać. Po włączeniu trybu debuggowania i sprawdzeniu kodu asemblerowego okazywało się, że problem pojawia się w momencie wywoływania funkcji toupper. Jest to funkcja z poza biblioteki WolfSSL, która była w niej użyta to zamiany liter w kluczu z małych na wielkie (np. z klucza ,,1a2b3c4d'' na klucz ,,1A2B3C4D''). W momencie wywoływania następował skok licznika programu na adres poza dozwoloną przestrzenia adresową. Rozwiązaniem problemu była edycja automatycznie generowanego pliku Makefile i usunięcia z niego flagi -fPIE.\\
+Wszystkie te problemy były rozwiązywane we współpracy z zespołem wsparcia technicznego od WolfSSL, co z uwagi na różnice czasu między Polską a Stanami Zjednoczonymi było bardzo czasochłonne. Tutaj pojawia się druga słaba stona biblioteki - tydzień po znalezieniu rozwiązania została wypuszczona nowa wersja oprogramowania zawierająca tą i parę innych małych poprawek. Ogólnie cała struktura katalogowa biblioteki przypomina zbiór łat, które ktoś próbuje ze sobą połączyć. Zaskakuje nawet brak wspólnego systemu nazewnictwa funkcji. Istnieje np. funkcja wc\_Des\_SetKey - ustawiająca klucz algorytmu DES i funkcja wc\_AesSetKey - bez podkreślenia między AES i Set - ustawiająca klucz algorytmu AES. Brak konsekwencji w nazewnictwie sprawia że korzystanie z biblioteki jest nieintuicyjne.\\
+Ostatnim problemem z biblioteką jest to, że nawet zdefiniowanie flagi -DWOLFSSL\_STM32F2 nie uruchamia całego wsparcia WolfSSL'a dla STM32F2. Dodatkowo konieczne było zdefiniowanie -DSTM32F2\_HASH.\\
+Kolejnym problemem był początkowy brak znajomości architektury badanej platformy. Na początku zadania nie zdawałem sobie sprawy, że badany procesor, tak jak wszystkie procesory z rodziny STM32F2, posiada krpytoprocesory znacząco przyspieszające działanie algorytmów szeregowych. Dopiero dodanie do projektu biblioteki Standard Peripheral Library pozwoliło na odwołanie się do specjalnych jednostek kryptograficznych przyspieszających obliczenia.
+\chapter{Zakończenie}
+Budowa środowiska testowego z właściwą strukturą katalogów nie jest sprawą prostą, jednak cel udało się osiągnąć. Dzięki przejrzstemu podziałowi projektu na poszczególne foldery i podfoldery badające poszczególne moduły, rozbudowanie środowiska o badanie kolejnych algorytmów jest możliwie proste.\\
+Otrzymane wyniki czasów wykonań algorytmów są zgodne z tymi przedstawionymi w benchmarkach na stronie WolfSSL'a i pomimo że są absolutnie czołowe wśród bibliotek opensource'owych, ja nie poleciłbym jej większości użytkowników. Czasy biblioteki można minimalnie poprawić edytując jej kod źródłowy, jednak są te różnice na poziomie poniżej 5\%\\
+Biblioteka okazała się nie być dokońca przenaszalna na wszystkie platformy, a aby w pełni wykorzystać jej potencjał konieczne jest dokładne zgłębienie kodów źródłowych biblioteki. W szczególności opcja użycia koprocesorów hashujących była dobrze ukryta, w dokumentacji w rozdiale o kompilowaniu biblioteki nie było o tej opcji ani słowa.\\
+Wśród wyników warto zwrócić uwagę na parę faktów. Po pierwsze prędkości hashowania/kodowania wiadomości maleją wraz ze wzrostem ilości danych. Dzieje się tak dlatego, że wsszelkie dane inicjalizujące wykonywane są tylko raz i większa część czasu może być przeznaczona na kodowanie wiadomości. Wnioski są takie, że przy zastosowaniach praktycznych algorytmów kryptograficznych dane należy najpierw zbierać, a gdy będzie ich możliwe dużo zakodować i wysłać.\\
+Kolejnym faktem jest to, że w algorytmach szeregowych DES/AES stosunkowo dużo czasu zajmuje algorytm rozszerzania klucza. Z uwagi, że  jest to operacja wykonywana tylko raz dla każdego klucza czas potrzebny na zakodowanie pierwszej partii danych może być znacząco większy niż czas na zakodowanie reszty danych. W szczególności w algorytmie DES możemy zauważyć, że czas na generowanie kluczy starczyłby na zakodowanie 200 bajtów danych.\\
+Na koniec warto zauważyć ogromną przewagę kryptoprocesorów, pozwalającą im dokonywać obliczeń z 7-8 razy większą wydajnością, niż dla obliczeń w samym CPU. Różnica ta wynika z operacji jakie wykonują algorytmy szeregowe. Od samego początku były one projektowane tak, aby ich hardwareowa implementacja była możliwie prosta. Dzięki temu użytkownik może uruchmić procedurę hashującą jakąś strukturę danych o wielkości setek MegaBajtów, która w ogóle nie będzie zajmowała czasu procesora.
 \appendix
 \chapter{SHA-1}
 Pseudokod algorytmu hashującego wygląda następująco:\\
@@ -817,20 +881,38 @@ Na koniec wykonywana jest jeszcze jedna runda, w której pomijana jest  operacja
 
 
 \begin{thebibliography}{9}
-\bibitem{latexcompanion} 
-Michel Goossens, Frank Mittelbach, and Alexander Samarin. 
-\textit{The \LaTeX\ Companion}. 
-Addison-Wesley, Reading, Massachusetts, 1993.
+\bibitem{Toolchain} 
+Instrukcja instalacji toolchain'a gcc,
+\\\texttt{http://gnuarmeclipse.github.io/toolchain/install/}
+
+\bibitem{Inline assembley}
+Opis dodawania instrukcji asemblerowych do kodu w C dla arm-none-eabi-gcc,
+\\\texttt{http://www.ethernut.de/en/documents/arm-inline-asm.html}
+
+\bibitem{Portownaie WolfSSL} 
+Poradnik do kompilacji WolfSSL na dowolną platformę,
+\\\texttt{https://www.wolfssl.com/wolfSSL/Docs-wolfssl-porting-guide.html}
+
+\bibitem{Benchamrks} 
+Bencharki biblioteki WolfSSL,
+\\\texttt{https://www.wolfssl.com/wolfSSL/benchmarks-wolfssl.html}
+
+\bibitem{Std periph} 
+Dokumentacja biblioteki Standard Peripheral Library,
+\\\texttt{http://www.st.com/content/ccc/resource/technical/document/user\_manual\\/59/2d/ab/ad/f8/29/49/d6/DM00023896.pdf/files/DM00023896.pdf}
+
+\bibitem{OpisDESa} 
+Technische Universit{\"a}t Berlin: Opis algorytmu DES,
+\\\texttt{http://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm}
+
+
+\bibitem{OpisAESa} 
+National Institute of Standards and Technology: Opis algorytmu AES,
+\\\texttt{http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf}
  
-\bibitem{einstein} 
-Albert Einstein. 
-\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
-[\textit{On the electrodynamics of moving bodies}]. 
-Annalen der Physik, 322(10):891–921, 1905.
- 
-\bibitem{knuthwebsite} 
-Knuth: Computers and Typesetting,
-\\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
+\bibitem{Szablon pracy} 
+Szablon pracy ze strony dr Adama Ratajczaka,
+\\\texttt{http://rab.ict.pwr.wroc.pl/~ar/LaTeX/}
 \end{thebibliography}
 
 
@@ -838,7 +920,6 @@ Knuth: Computers and Typesetting,
                             % bibliografia.bib - dotyczy BibTeXa,
                             % jeÄšĹşeli nie korzystamy z BibTeXa naleÄšĹşy
                             % uÄšĹşyĂÂ otoczenia thebibliography
-http://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm
 
 \addcontentsline{toc}{chapter}{Spis rysunków}
 \listoffigures

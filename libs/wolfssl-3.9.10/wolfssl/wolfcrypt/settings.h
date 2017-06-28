@@ -762,7 +762,7 @@ static char *fgets(char *buff, int sz, FILE *fp)
     #define NO_WOLFSSL_DIR
     #define NO_RABBIT
     #define STM32F2_RNG
-//    #define STM32F2_CRYPTO
+    #define STM32F2_CRYPTO
 //    #define KEIL_INTRINSICS
 #endif
 

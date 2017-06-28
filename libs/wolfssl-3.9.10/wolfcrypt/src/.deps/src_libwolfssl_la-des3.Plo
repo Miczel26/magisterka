@@ -29,7 +29,33 @@ wolfcrypt/src/src_libwolfssl_la-des3.lo: wolfcrypt/src/des3.c config.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\string.h \
  c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\ctype.h \
  wolfssl/wolfcrypt/error-crypt.h wolfssl/wolfcrypt/logging.h \
- wolfcrypt/src/misc.c wolfssl/wolfcrypt/misc.h
+ wolfcrypt/src/misc.c wolfssl/wolfcrypt/misc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f2xx.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f217xx.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cm3.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdint.h \
+ c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_intsup.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmInstr.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/cmsis_gcc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmFunc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_conf.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_cortex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h \
+ c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_cryp.h
 
 config.h:
 
@@ -102,3 +128,55 @@ wolfssl/wolfcrypt/logging.h:
 wolfcrypt/src/misc.c:
 
 wolfssl/wolfcrypt/misc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f2xx.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f217xx.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cm3.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\lib\gcc\arm-none-eabi\4.9.3\include\stdint.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\stdint.h:
+
+c:\gnu_tools_arm_embedded\4.9_2015q3\arm-none-eabi\include\sys\_intsup.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmInstr.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/cmsis_gcc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Include/core_cmFunc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_conf.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_dma_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_cortex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_flash_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h:
+
+c:/Users/michal.stroka/Desktop/magisterka/libs/Drivers/STM32F2xx_StdPeriph_Lib_V1.1.0/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_cryp.h:

@@ -19,6 +19,7 @@
 /* AES */
 #include "../inc/aes/test_aes.h"
 #include "../inc/des/test_des.h"
+#include "stm32f2xx_rcc.h"
 //#include "wolfssl/wolfcrpyt/sha256.h"
 
 /* Semihosting */
@@ -38,10 +39,11 @@ int main()
     Aes aes;
     TIM_HandleTypeDef timerHandle;
     TimerInit(&timerHandle);
-
 	printf("WOLF\n");
-	//test_sha(&timerHandle, 1, 30);
-	test_aes(&timerHandle, &aes, 30);
+	//test_sha_1(&timerHandle, 30);
+	test_sha(&timerHandle, 1, 30);
+	//test_aes(&timerHandle, &aes, 30);
+
 	//test_des(&timerHandle, &des, 30);
     /*
      * Examples of execution

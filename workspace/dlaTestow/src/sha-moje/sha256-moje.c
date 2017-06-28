@@ -1,155 +1,167 @@
 #include "sha256-moje.h"
 
-#include <string.h>
-
-
-#define ROTLEFT(a,b) (((a) << (b)) | ((a) >> (32-(b))))
-#define ROTRIGHT(a,b) (((a) >> (b)) | ((a) << (32-(b))))
-
-#define CH(x,y,z) (((x) & (y)) ^ (~(x) & (z)))
-#define MAJ(x,y,z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
-#define EP0(x) (ROTRIGHT(x,2) ^ ROTRIGHT(x,13) ^ ROTRIGHT(x,22))
-#define EP1(x) (ROTRIGHT(x,6) ^ ROTRIGHT(x,11) ^ ROTRIGHT(x,25))
-#define SIG0(x) (ROTRIGHT(x,7) ^ ROTRIGHT(x,18) ^ ((x) >> 3))
-#define SIG1(x) (ROTRIGHT(x,17) ^ ROTRIGHT(x,19) ^ ((x) >> 10))
-
-/**************************** VARIABLES *****************************/
-static const WORD k[64] = {
-	0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-	0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-	0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-	0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-	0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-	0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-	0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-	0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
-};
-
-static const uint32_t initState[] = {0,0,0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19};
-/*********************** FUNCTION DEFINITIONS ***********************/
-void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
+int Sha_1_Init(Sha* sha)
 {
-	WORD a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
+    /* STM32F2 struct notes:
+     * sha->buffer  = first 4 bytes used to hold partial block if needed
+     * sha->buffLen = num bytes currently stored in sha->buffer
+     * sha->loLen   = num bytes that have been written to STM32 FIFO
+     */
+    memset(sha->buffer, 0, SHA_REG_SIZE);
+    sha->buffLen = 0;
+    sha->loLen = 0;
 
-	for (i = 0, j = 0; i < 16; ++i, j += 4)
-		m[i] = (data[j] << 24) | (data[j + 1] << 16) | (data[j + 2] << 8) | (data[j + 3]);
-	for ( ; i < 64; ++i)
-		m[i] = SIG1(m[i - 2]) + m[i - 7] + SIG0(m[i - 15]) + m[i - 16];
+    /* initialize HASH peripheral */
+    HASH_DeInit();
 
-	a = ctx->state[0];
-	b = ctx->state[1];
-	c = ctx->state[2];
-	d = ctx->state[3];
-	e = ctx->state[4];
-	f = ctx->state[5];
-	g = ctx->state[6];
-	h = ctx->state[7];
+    /* configure algo used, algo mode, datatype */
+    HASH->CR &= ~ (HASH_CR_ALGO | HASH_CR_DATATYPE | HASH_CR_MODE);
+    HASH->CR |= (HASH_AlgoSelection_SHA1 | HASH_AlgoMode_HASH
+                 | HASH_DataType_8b);
 
-	for (i = 0; i < 64; ++i)
-	{
-		t1 = h + EP1(e) + CH(e,f,g) + k[i] + m[i];
-		t2 = EP0(a) + MAJ(a,b,c);
-		h = g;
-		g = f;
-		f = e;
-		e = d + t1;
-		d = c;
-		c = b;
-		b = a;
-		a = t1 + t2;
-	}
+    /* reset HASH processor */
+    HASH->CR |= HASH_CR_INIT;
 
-	ctx->state[0] += a;
-	ctx->state[1] += b;
-	ctx->state[2] += c;
-	ctx->state[3] += d;
-	ctx->state[4] += e;
-	ctx->state[5] += f;
-	ctx->state[6] += g;
-	ctx->state[7] += h;
+    return 0;
 }
 
-void sha256_init(SHA256_CTX *ctx)
+int Sha_1_Update(Sha* sha, const uint8_t* data, uint32_t len)
 {
-	memcpy(&ctx->datalen, initState, 40);
-}
+	uint32_t i = 0;
+	uint32_t fill = 0;
+	uint32_t diff = 0;
 
-void sha256_update(SHA256_CTX *ctx, const BYTE data[], int len)
-{
-	WORD i;
+    /* if saved partial block is available */
+    if (sha->buffLen) {
+        fill = 4 - sha->buffLen;
 
-	for (i = 0; i < len; ++i) {
-		ctx->data[ctx->datalen] = data[i];
-		ctx->datalen++;
-		if (ctx->datalen == 64) {
-			sha256_transform(ctx, ctx->data);
-			ctx->bitlen += 512;
-			ctx->datalen = 0;
-		}
-	}
-}
+        /* if enough data to fill, fill and push to FIFO */
+        if (fill <= len) {
+        	memcpy(sha->buffer + sha->buffLen, data, fill);
+            HASH_DataIn(*(uint32_t*)sha->buffer);
 
-void sha256_final(SHA256_CTX *ctx, BYTE hash[])
-{
-	WORD i;
-
-	i = ctx->datalen;
-
-	// Pad whatever data is left in the buffer.
-	if (ctx->datalen < 56) {
-		ctx->data[i++] = 0x80;
-		while (i < 56)
-			ctx->data[i++] = 0x00;
-	}
-	else {
-		ctx->data[i++] = 0x80;
-		while (i < 64)
-			ctx->data[i++] = 0x00;
-		sha256_transform(ctx, ctx->data);
-		memset(ctx->data, 0, 56);
-	}
-
-	// Append to the padding the total message's length in bits and transform.
-	ctx->bitlen += ctx->datalen * 8;
-	ctx->data[63] = ctx->bitlen;
-	ctx->data[62] = ctx->bitlen >> 8;
-	ctx->data[61] = ctx->bitlen >> 16;
-	ctx->data[60] = ctx->bitlen >> 24;
-	ctx->data[59] = ctx->bitlen >> 32;
-	ctx->data[58] = ctx->bitlen >> 40;
-	ctx->data[57] = ctx->bitlen >> 48;
-	ctx->data[56] = ctx->bitlen >> 56;
-	sha256_transform(ctx, ctx->data);
-
-	// Since this implementation uses little endian byte ordering and SHA uses big endian,
-	// reverse all the bytes when copying the final state to the output hash.
-	for (i = 0; i < 4; ++i) {
-		hash[i]      = (ctx->state[0] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 4]  = (ctx->state[1] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 8]  = (ctx->state[2] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 12] = (ctx->state[3] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 16] = (ctx->state[4] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 20] = (ctx->state[5] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 24] = (ctx->state[6] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 28] = (ctx->state[7] >> (24 - i * 8)) & 0x000000ff;
-	}
-}
-void sha256_moje_test(TIM_HandleTypeDef *timerHandle)
-{
-	SHA256_CTX sha;
-	BYTE output[100];
-	        for (int i = 0; i < 30; ++i)
-        {
-            TimerStart(timerHandle);
-            sha256_init(&sha);
-            printf("%d ", TimerStop(timerHandle));
-
-            TimerStart(timerHandle);
-            sha256_update(&sha, Sha256TwoBlocks, sizeof(Sha256TwoBlocks));
-            printf("%d ", TimerStop(timerHandle));
-
-            TimerStart(timerHandle);
-            sha256_final(&sha, output);
-            printf("%d\n", TimerStop(timerHandle));
+            data += fill;
+            len -= fill;
+            sha->loLen += 4;
+            sha->buffLen = 0;
+        } else {
+            /* append partial to existing stored block */
+            memcpy(sha->buffer + sha->buffLen, data, len);
+            sha->buffLen += len;
+            return 0;
         }
+    }
+
+    /* write input block in the IN FIFO */
+    for(i = 0; i < len; i += 4)
+    {
+        diff = len - i;
+        if ( diff < 4) {
+            /* store incomplete last block, not yet in FIFO */
+            memset(sha->buffer, 0, SHA_REG_SIZE);
+            memcpy((uint8_t*)sha->buffer, data, diff);
+            sha->buffLen = diff;
+        } else {
+            HASH_DataIn(*(uint32_t*)data);
+            data+=4;
+        }
+    }
+
+    /* keep track of total data length thus far */
+    sha->loLen += (len - sha->buffLen);
+
+    return 0;
+}
+
+int Sha_1_Final(Sha* sha, uint8_t* hash)
+{
+    __IO uint16_t nbvalidbitsdata = 0;
+
+    /* finish reading any trailing bytes into FIFO */
+    if (sha->buffLen) {
+        HASH_DataIn(*(uint32_t*)sha->buffer);
+        sha->loLen += sha->buffLen;
+    }
+
+    /* calculate number of valid bits in last word of input data */
+    nbvalidbitsdata = 8 * (sha->loLen % SHA_REG_SIZE);
+
+    /* configure number of valid bits in last word of the data */
+    HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+
+    /* start HASH processor */
+    HASH_StartDigest();
+
+    /* wait until Busy flag == RESET */
+    while (HASH_GetFlagStatus(HASH_FLAG_BUSY) != RESET) {}
+
+    /* read message digest */
+    sha->digest[0] = HASH->HR[0];
+    sha->digest[1] = HASH->HR[1];
+    sha->digest[2] = HASH->HR[2];
+    sha->digest[3] = HASH->HR[3];
+    sha->digest[4] = HASH->HR[4];
+
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[0]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[1]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[2]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[3]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[4]) );
+
+    memcpy(hash, sha->digest, SHA_DIGEST_SIZE);
+
+    return 0;  /* reset state */
+}
+
+void test_sha_1(TIM_HandleTypeDef *timerHandle, uint8_t nrOfMeasurments)
+{
+	Sha sha;
+	uint8_t output[SHA_DIGEST_SIZE];
+
+	printf("Sha-1 One block: \n");
+	        for (int i = 0; i < nrOfMeasurments; ++i)
+	        {
+	            TimerStart(timerHandle);
+	            Sha_1_Init(&sha);
+	            printf("%d;", TimerStop(timerHandle));
+
+	            TimerStart(timerHandle);
+	            Sha_1_Update(&sha, Sha1OneBlock, sizeof(Sha1OneBlock));
+	            printf("%d;", TimerStop(timerHandle));
+
+	            TimerStart(timerHandle);
+	            Sha_1_Final(&sha, output);
+	            printf("%d\n", TimerStop(timerHandle));
+	        }
+
+	        for (int i = 0; i < nrOfMeasurments; ++i)
+	       	        {
+	       	            TimerStart(timerHandle);
+	       	            Sha_1_Init(&sha);
+	       	            printf("%d;", TimerStop(timerHandle));
+
+	       	            TimerStart(timerHandle);
+	       	            Sha_1_Update(&sha, Sha1TwoBlocks, sizeof(Sha1TwoBlocks));
+	       	            printf("%d;", TimerStop(timerHandle));
+
+	       	            TimerStart(timerHandle);
+	       	            Sha_1_Final(&sha, output);
+	       	            printf("%d\n", TimerStop(timerHandle));
+	       	        }
+
+	        for (int i = 0; i < nrOfMeasurments; ++i)
+	       	        {
+	       	            TimerStart(timerHandle);
+	       	            Sha_1_Init(&sha);
+	       	            printf("%d;", TimerStop(timerHandle));
+
+	       	            TimerStart(timerHandle);
+	       	            Sha_1_Update(&sha, Sha1_1024BytesBlocks, sizeof(Sha1_1024BytesBlocks));
+	       	            printf("%d;", TimerStop(timerHandle));
+
+	       	            TimerStart(timerHandle);
+	       	            Sha_1_Final(&sha, output);
+	       	            printf("%d\n", TimerStop(timerHandle));
+	       	        }
+
 }

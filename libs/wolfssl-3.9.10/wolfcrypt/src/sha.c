@@ -190,7 +190,11 @@ int wc_ShaFinal(Sha* sha, byte* hash)
     sha->digest[3] = HASH->HR[3];
     sha->digest[4] = HASH->HR[4];
 
-    ByteReverseWords(sha->digest, sha->digest, SHA_DIGEST_SIZE);
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[0]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[1]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[2]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[3]) );
+    asm("REV %[value], %[value]" : [value] "+r" (sha->digest[4]) );;
 
     XMEMCPY(hash, sha->digest, SHA_DIGEST_SIZE);
 
